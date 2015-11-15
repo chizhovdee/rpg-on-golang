@@ -25,3 +25,5 @@ doc/
 .idea
 
 /node_modules
+/client/assets
+
