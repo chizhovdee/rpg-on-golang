@@ -12,31 +12,41 @@ var vinyl      = require('vinyl-source-stream');
 
 var concat = require('gulp-concat');
 
-var root_path = "./client";
-var tmp_path = root_path + "/assets";
-var js_path = root_path + "/js/*.coffee";
-var res_path = root_path + "/res/*.coffee";
+var build_path = "../server/assets";
+var js_path = "./js/*.coffee";
+var res_path = "./res/*.coffee";
+var vendor_path = "./js/vendor";
 
-var compiled_js = "main.js";
+var compiled_js = "game.js";
 
 gulp.task('clean', function(cb) {
-  del(tmp_path, cb);
+  del(build_path, cb);
+});
+
+gulp.task('copy-files', ['copy-vendor-js'], function() {
+    return gulp.src(['project.json'])
+    .pipe(gulp.dest(build_path));
+});
+
+gulp.task('copy-vendor-js', function() {
+  return gulp.src([vendor_path + "/cocos2d-js-v3.8.js"])
+    .pipe(gulp.dest(build_path + "/js"));
 });
 
 gulp.task('compile-coffee', function() {
-  return browserify(root_path + "/js/main.coffee")
+  return browserify("./js/main.coffee")
     .transform(coffeeify)
     .bundle()
     .pipe(vinyl(compiled_js))
     .pipe(buffer())
     //.pipe(uglify())
-    .pipe(gulp.dest(tmp_path + "/js"));
+    .pipe(gulp.dest(build_path + "/js"));
 });
 
 gulp.task('compile-js', ['compile-coffee'], function() {
-  return gulp.src(tmp_path + "/js/" + compiled_js)
+  return gulp.src(build_path + "/js/" + compiled_js)
     .pipe(concat(compiled_js))
-    .pipe(gulp.dest(tmp_path + "/js"));
+    .pipe(gulp.dest(build_path + "/js"));
 });
 
 // не используется
@@ -44,5 +54,5 @@ gulp.task('watch', function() {
   gulp.watch(js_path, ['compile-js']);
 });
 
-gulp.task('default', ['clean', 'compile-js']);
+gulp.task('default', ['clean', 'compile-js', "copy-files"]);
 
