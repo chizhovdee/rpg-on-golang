@@ -13,7 +13,7 @@ var vinyl      = require('vinyl-source-stream');
 var concat = require('gulp-concat');
 
 var build_path = "../server/assets";
-var js_path = "./js/*.coffee";
+var watch_js_path = "./js/**/*.coffee";
 var res_path = "./res/*.coffee";
 var vendor_path = "./js/vendor";
 
@@ -51,7 +51,7 @@ gulp.task('compile-js', ['compile-coffee'], function() {
 
 // не используется
 gulp.task('watch', function() {
-  gulp.watch(js_path, ['compile-js']);
+  gulp.watch(watch_js_path, ['compile-js']);
 });
 
 gulp.task('default', ['clean', 'compile-js', "copy-files"]);
