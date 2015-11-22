@@ -3,6 +3,7 @@ import (
 	"net/http"
 	"html/template"
 	"path/filepath"
+	"github.com/chizhovdee/rpg/server/handlers"
 )
 
 func main(){
@@ -12,6 +13,8 @@ func main(){
 	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
 	mux.HandleFunc("/", index)
+
+	handlers.SetupShopHandlers(mux)
 
 	server := &http.Server{
 		Addr: "0.0.0.0:8080",
