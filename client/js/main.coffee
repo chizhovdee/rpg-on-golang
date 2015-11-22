@@ -1,12 +1,19 @@
-cc = require("cocos")
-MainScene = require('./scenes/main.coffee')
+Spine = require("Spine")
 
-window.onload = ->
-  cc.game.onStart = ->
-    cc.LoaderScene.preload([], ->
-      # манипуляции с экраном
+class App extends Spine.Controller
+  className: "app"
 
-      cc.director.runScene(new MainScene())
-    )
+  constructor: ->
+    super
 
-  cc.game.run("gameCanvas")
+    console.log 11111111
+
+    @el.html(JST["test"]())
+
+
+    @el.appendTo("body")
+
+$(->
+  new App()
+
+)

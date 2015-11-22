@@ -1,17 +1,16 @@
-Zepto = require("Zepto")
 
 transport =
   bind: (eventName, callback)->
-    cc.eventManager.addCustomListener(eventName, (data)-> callback(data.getUserData()))
+
 
   dispatch: (eventName, data)->
-    cc.eventManager.dispatchCustomEvent(eventName, data)
+
 
   send: (name, data)->
     @[name](data)
 
   ajax: (type, url, data)->
-    Zepto.ajax(
+    $.ajax(
       type: type
       url: url
       data: data
