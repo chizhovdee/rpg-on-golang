@@ -1,8 +1,11 @@
+cc = require("cocos")
+ccui = require("cocos-ui")
 config = require("../config.coffee")
 
 MainHeader = cc.Layer.extend(
   init: ->
     @._super()
+
     size = cc.winSize
 
     @.setPosition(cc.p(0, size.height - 10));

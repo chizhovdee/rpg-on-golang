@@ -1,3 +1,5 @@
+cc = require("cocos")
+transport = require("../lib/transport.coffee")
 MainHeader = require("../layers/main_header.coffee")
 
 MainLayer = cc.Layer.extend(
@@ -25,10 +27,16 @@ MainLayer = cc.Layer.extend(
     menu.setPosition(cc.p(size.width / 2, size.height / 2))
     @.addChild(menu)
 
+    cc.eventManager.addCustomListener("custom_listener", (data)-> console.log("HUI", data.getUserData()))
+
     true
 
   onMenuClick: (e)->
     console.log e.getUserData()
+
+    cc.eventManager.dispatchCustomEvent("custom_listener", {page: e.getUserData()})
+
+    transport.send("loadShop")
 )
 
 MainScene = cc.Scene.extend(
