@@ -1,3 +1,4 @@
+cc = require("cocos")
 MainScene = require('./scenes/main.coffee')
 
 window.onload = ->

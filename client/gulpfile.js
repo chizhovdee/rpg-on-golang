@@ -29,8 +29,12 @@ gulp.task('copy-files', ['copy-vendor-js'], function() {
 });
 
 gulp.task('copy-vendor-js', function() {
-  return gulp.src([vendor_path + "/cocos2d-js-v3.8.js"])
-    .pipe(gulp.dest(build_path + "/js"));
+  return gulp.src(
+    [
+      vendor_path + "/zepto.js",
+      vendor_path + "/cocos2d-js-v3.8.js"
+    ]
+  ).pipe(gulp.dest(build_path + "/js"));
 });
 
 gulp.task('compile-coffee', function() {

@@ -1,0 +1,35 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "browserify-shim": "^3.8.11",
+    "browserify": "^12.0.1",
+    "coffeeify": "^1.2.0",
+    "del": "^2.1.0",
+    "gulp": "^3.9.0",
+    "gulp-coffeelint": "^0.5.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-uglify": "^1.5.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "cocos": "global:cc",
+    "cocos-ui": "global:ccui",
+    "Zepto": "global:Zepto"
+  }
+}
