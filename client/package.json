@@ -4,8 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
-    "browserify-shim": "^3.8.11",
     "browserify": "^12.0.1",
+    "browserify-shim": "^3.8.11",
     "coffeeify": "^1.2.0",
     "del": "^2.1.0",
     "gulp": "^3.9.0",
@@ -15,21 +15,21 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp-eco": "0.0.2",
+    "gulp-sass": "^2.1.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-
   "browserify": {
     "transform": [
       "browserify-shim"
     ]
   },
   "browserify-shim": {
-    "cocos": "global:cc",
-    "cocos-ui": "global:ccui",
-    "Zepto": "global:Zepto"
+    "Spine": "global:Spine"
   }
 }

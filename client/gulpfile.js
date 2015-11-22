@@ -12,29 +12,45 @@ var vinyl      = require('vinyl-source-stream');
 
 var concat = require('gulp-concat');
 
+var eco = require('gulp-eco'); //forked https://github.com/chizhovdee/gulp-eco
+
+var sass = require('gulp-sass');
+
 var build_path = "../server/assets";
 var watch_js_path = "./js/**/*.coffee";
-var res_path = "./res/*.coffee";
+var watch_eco_path = "./js/views/**/*.eco";
 var vendor_path = "./js/vendor";
 
-var compiled_js = "game.js";
+var compiled_js = "app.js";
 
 gulp.task('clean', function(cb) {
-  del(build_path, cb);
+  cb.force = true;
+  return del([
+    build_path + "/js",
+    build_path + "/css"
+    ], cb);
 });
 
 gulp.task('copy-files', ['copy-vendor-js'], function() {
-    return gulp.src(['project.json'])
-    .pipe(gulp.dest(build_path));
+
 });
 
 gulp.task('copy-vendor-js', function() {
   return gulp.src(
     [
-      vendor_path + "/zepto.js",
-      vendor_path + "/cocos2d-js-v3.8.js"
+      vendor_path + "/jquery.js",
+      vendor_path + "/spine.js",
+      vendor_path + "/underscore.js"
     ]
   ).pipe(gulp.dest(build_path + "/js"));
+});
+
+
+gulp.task('compile-eco', function () {
+  return gulp.src('./js/views/**/*.eco')
+    .pipe(eco())
+    .pipe(concat('templates.js'))
+    .pipe(gulp.dest(build_path + "/js"));
 });
 
 gulp.task('compile-coffee', function() {
@@ -47,16 +63,35 @@ gulp.task('compile-coffee', function() {
     .pipe(gulp.dest(build_path + "/js"));
 });
 
-gulp.task('compile-js', ['compile-coffee'], function() {
-  return gulp.src(build_path + "/js/" + compiled_js)
+gulp.task('compile-js', ['compile-eco', 'compile-coffee'], function() {
+  return gulp.src([
+      build_path + "/js/templates.js",
+      build_path + "/js/" + compiled_js
+    ])
     .pipe(concat(compiled_js))
-    .pipe(gulp.dest(build_path + "/js"));
+    .pipe(gulp.dest(build_path + "/js"))
+    .on('end', function(){
+      del(build_path + "/js/templates.js", {force: true})
+    });
 });
 
-// не используется
+gulp.task('compile-sass', function () {
+  gulp.src('./css/**/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(build_path + "/css"))
+    .on('end', function(){
+      del([
+          build_path + "/css/**/*",
+          "!" + build_path + "/css/app.css"
+        ],
+        {force: true})
+    });
+});
+
+
 gulp.task('watch', function() {
-  gulp.watch(watch_js_path, ['compile-js']);
+  gulp.watch([watch_js_path, watch_eco_path], ['compile-js']);
 });
 
-gulp.task('default', ['clean', 'compile-js', "copy-files"]);
+gulp.task('default', ['clean', 'compile-js', 'compile-sass', "copy-files"]);
 
