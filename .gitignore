@@ -9,6 +9,7 @@
 /log/*.log
 /tmp
 *.log
+/server/tmp
 
 doc/
 *.swp

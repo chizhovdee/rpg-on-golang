@@ -1,32 +1,23 @@
 package main
 import (
 	"net/http"
-	"html/template"
-	"path/filepath"
-	"github.com/chizhovdee/rpg/server/handlers"
+	"github.com/gin-gonic/gin"
 )
 
 func main(){
-	mux := http.NewServeMux()
+	router := gin.Default()
 
-	// статичные файлы
-	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+	gin.Logger()
 
-	mux.HandleFunc("/", index)
+	router.Static("/assets", "./assets")
 
-	handlers.SetupShopHandlers(mux)
+	router.LoadHTMLFiles("views/index.html")
 
-	server := &http.Server{
-		Addr: "0.0.0.0:8080",
-		Handler: mux,
-	}
+	router.GET("/", index)
 
-	server.ListenAndServe()
+	router.Run(":3000")
 }
 
-func index(w http.ResponseWriter, r *http.Request) {
-	templ := template.Must(template.ParseFiles(filepath.Join("views", "index.html")))
-
-	templ.Execute(w, nil)
+func index(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.html", nil)
 }
-

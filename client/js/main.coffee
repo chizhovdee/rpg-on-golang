@@ -10,7 +10,6 @@ class App extends Spine.Controller
 
     @el.html(JST["test"]())
 
-
     @el.appendTo("body")
 
 $(->
