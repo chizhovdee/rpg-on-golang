@@ -1,0 +1,5 @@
+development:
+  driver: mysql
+  open: root:@/rpg_game_development?parseTime=true
+  import: github.com/go-sql-driver/mysql
+  dialect: mysql

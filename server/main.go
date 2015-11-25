@@ -5,9 +5,13 @@ import (
 )
 
 func main(){
-	router := gin.Default()
+	CreateDbMap()
 
-	gin.Logger()
+	if existsPendingMigrations(DbMap.Db) {
+		panic("You should run migrations")
+	}
+
+	router := gin.Default()
 
 	router.Static("/assets", "./assets")
 
@@ -21,3 +25,4 @@ func main(){
 func index(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
+
