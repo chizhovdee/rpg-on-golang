@@ -1,0 +1,8 @@
+development:
+  driver: mysql
+  dialect: mysql
+  database: rpg_game_development
+  host: localhost
+  username: root
+  password:
+  migrations_dir: db/migrations

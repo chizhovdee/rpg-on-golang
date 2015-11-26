@@ -2,22 +2,25 @@ package main
 import (
 	"net/http"
 	"github.com/gin-gonic/gin"
+	"os"
+	"github.com/chizhovdee/rpg/server/config"
+	"github.com/chizhovdee/rpg/server/handlers"
 )
 
-func main(){
-	CreateDbMap()
-
-	if existsPendingMigrations(DbMap.Db) {
-		panic("You should run migrations")
+func init() {
+	if os.Getenv("ENV") == "" {
+		os.Setenv("ENV", "development")
 	}
+}
+
+func main(){
+	app := config.NewApplication()
+
+	handlers.SetupApplication(app)
 
 	router := gin.Default()
 
-	router.Static("/assets", "./assets")
-
-	router.LoadHTMLFiles("views/index.html")
-
-	router.GET("/", index)
+	setupRoutes(router)
 
 	router.Run(":3000")
 }
@@ -25,4 +28,3 @@ func main(){
 func index(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
-
