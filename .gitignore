@@ -10,6 +10,7 @@
 /tmp
 *.log
 /server/tmp
+*-bin
 
 doc/
 *.swp
@@ -25,8 +26,11 @@ doc/
 .codeintel
 .idea
 
+
 /node_modules
 /client/node_modules
 /client/assets
 /server/assets
+/server/public/assets
+/client/build
 

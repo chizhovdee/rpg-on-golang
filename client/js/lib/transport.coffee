@@ -1,13 +1,24 @@
 
+Spine = require("Spine")
+
 transport =
   bind: (eventName, callback)->
+    Spine.Events.bind(eventName, callback)
 
+  unbind: (eventName, callback)->
+    Spine.Events.unbind(eventName, callback)
 
-  dispatch: (eventName, data)->
+  trigger: (eventName, data)->
+    Spine.Events.trigger(eventName, data)
 
+  send: (eventName, data)->
+    if @[eventName]?
+      @[eventName](data)
+    else
+      console.log 'Unknown event type:', eventName, data
 
-  send: (name, data)->
-    @[name](data)
+  processResponse: (response)->
+    console.log(response)
 
   ajax: (type, url, data)->
     $.ajax(
@@ -15,10 +26,8 @@ transport =
       url: url
       data: data
       dataType: "json"
-      success: (data)->
-        console.log data
-        # TO DO
-        # dispatch event
+      success: (response)->
+        @.processResponse(response)
 
       error: (xhr, type)->
         console.error("Ajax error!", xhr, type)
@@ -30,8 +39,10 @@ transport =
   post: (url, data)->
     @.ajax("POST", url, data)
 
-  loadShop: ->
-    @.get("/shop")
+  put: (url, data)->
+    @.ajax("PUT", url, data)
 
+  delete: (url, data)->
+    @.ajax("DELETE", url, data)
 
 module.exports = transport

@@ -16,7 +16,10 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
+    "gulp-browserify": "^0.5.1",
     "gulp-eco": "0.0.2",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-rev": "^6.0.1",
     "gulp-sass": "^2.1.0"
   },
   "scripts": {

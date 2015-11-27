@@ -4,11 +4,16 @@ import (
 	"os"
 	"github.com/chizhovdee/rpg/server/config"
 	"github.com/chizhovdee/rpg/server/handlers"
+	"fmt"
 )
 
 func init() {
 	if os.Getenv("ENV") == "" {
 		os.Setenv("ENV", "development")
+	}
+
+	if os.Getenv("PORT") == "" && os.Getenv("ENV") == "development" {
+		os.Setenv("PORT", "3000")
 	}
 }
 
@@ -21,5 +26,5 @@ func main(){
 
 	setupRoutes(router)
 
-	router.Run(":3000")
+	router.Run(":" + os.Getenv("PORT"))
 }
