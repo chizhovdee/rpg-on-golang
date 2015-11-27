@@ -1,5 +1,8 @@
 package main
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/chizhovdee/rpg/server/handlers"
+)
 
 func setupRoutes(router *gin.Engine){
 	router.Static("/assets", "./assets")
@@ -7,5 +10,5 @@ func setupRoutes(router *gin.Engine){
 
 	router.LoadHTMLFiles("views/index.html")
 
-	router.GET("/", index)
+	router.GET("/", handlers.HomeIndex)
 }

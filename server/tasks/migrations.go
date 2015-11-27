@@ -16,7 +16,7 @@ import (
 
 func initData() (*migrate.FileMigrationSource, *sql.DB, error){
 	migrations := &migrate.FileMigrationSource{
-		Dir: "db/migrations",
+		Dir: "server/db/migrations",
 	}
 
 	db, err := config.OpenDb()

@@ -1,5 +1,7 @@
 package config
-import "gopkg.in/gorp.v1"
+import (
+	"gopkg.in/gorp.v1"
+)
 
 type Application struct {
 	DbMap *gorp.DbMap

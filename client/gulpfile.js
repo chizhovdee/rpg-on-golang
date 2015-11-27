@@ -16,10 +16,11 @@ var eco = require('gulp-eco'); //forked https://github.com/chizhovdee/gulp-eco
 
 var sass = require('gulp-sass');
 
+var root = ".";
 var build_path = "../server/assets";
-var watch_js_path = "./js/**/*.coffee";
-var watch_eco_path = "./js/views/**/*.eco";
-var vendor_path = "./js/vendor";
+var watch_js_path = root + "/js/**/*.coffee";
+var watch_eco_path = root + "./client/js/views/**/*.eco";
+var vendor_path = root + "/js/vendor";
 
 var compiled_js = "app.js";
 
@@ -47,14 +48,14 @@ gulp.task('copy-vendor-js', function() {
 
 
 gulp.task('compile-eco', function () {
-  return gulp.src('./js/views/**/*.eco')
+  return gulp.src(root + '/js/views/**/*.eco')
     .pipe(eco())
     .pipe(concat('templates.js'))
     .pipe(gulp.dest(build_path + "/js"));
 });
 
 gulp.task('compile-coffee', function() {
-  return browserify("./js/main.coffee")
+  return browserify(root + "/js/main.coffee")
     .transform(coffeeify)
     .bundle()
     .pipe(vinyl(compiled_js))
@@ -76,7 +77,7 @@ gulp.task('compile-js', ['compile-eco', 'compile-coffee'], function() {
 });
 
 gulp.task('compile-sass', function () {
-  gulp.src('./css/**/*.scss')
+  gulp.src(root + '/css/**/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(build_path + "/css"))
     .on('end', function(){

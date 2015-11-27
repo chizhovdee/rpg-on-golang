@@ -1,6 +1,5 @@
 package main
 import (
-	"net/http"
 	"github.com/gin-gonic/gin"
 	"os"
 	"github.com/chizhovdee/rpg/server/config"
@@ -23,8 +22,4 @@ func main(){
 	setupRoutes(router)
 
 	router.Run(":3000")
-}
-
-func index(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", nil)
 }
