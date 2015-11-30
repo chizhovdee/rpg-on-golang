@@ -8,6 +8,7 @@ import (
 	"gopkg.in/gorp.v1"
 	"os"
 	"github.com/chizhovdee/rpg/server/models"
+	"log"
 )
 
 // Структура конфигурации базы данных для чтения из yaml файла
@@ -57,7 +58,9 @@ func InitDbMap() *gorp.DbMap {
 
 	dbMap := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{"InnoDB", "UTF8"}}
 
-	dbMap.AddTableWithName(models.Character{}, "characters").SetKeys(true, "Id")
+	setTables(dbMap)
+
+	dbMap.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
 
 	return dbMap
 }
@@ -76,4 +79,8 @@ func readConfig() (map[string]*dbConfig, error) {
 	}
 
 	return config, nil
+}
+
+func setTables(dbMap *gorp.DbMap) {
+	dbMap.AddTableWithName(models.Character{}, "characters").SetKeys(true, "Id")
 }

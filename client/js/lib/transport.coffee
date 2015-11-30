@@ -1,7 +1,10 @@
-
-Spine = require("Spine")
+Spine = require("spine")
+$ = Spine.$
 
 transport =
+  one: (eventName, callback)->
+   Spine.Events.one(eventName, callback)
+
   bind: (eventName, callback)->
     Spine.Events.bind(eventName, callback)
 
@@ -15,18 +18,28 @@ transport =
     if @[eventName]?
       @[eventName](data)
     else
-      console.log 'Unknown event type:', eventName, data
+      console.error 'Unknown event type:', eventName, data
 
   processResponse: (response)->
     console.log(response)
 
+    if response.event_type?
+      @.trigger(response.event_type, response)
+
+    else
+      console.error("No response event type")
+      console.log(response)
+
+  prefixUrl: (url)->
+    "/api/777/#{url}"
+
   ajax: (type, url, data)->
     $.ajax(
       type: type
-      url: url
+      url: @.prefixUrl(url)
       data: data
       dataType: "json"
-      success: (response)->
+      success: (response)=>
         @.processResponse(response)
 
       error: (xhr, type)->
@@ -44,5 +57,9 @@ transport =
 
   delete: (url, data)->
     @.ajax("DELETE", url, data)
+
+  loadCharacterGameData: ->
+    @.get("characters/game_data.json")
+
 
 module.exports = transport

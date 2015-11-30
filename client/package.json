@@ -33,6 +33,7 @@
     ]
   },
   "browserify-shim": {
-    "Spine": "global:Spine"
+    "spine": "global:Spine",
+    "jquery": "global:jQuery"
   }
 }

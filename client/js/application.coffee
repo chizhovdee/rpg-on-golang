@@ -1,11 +1,14 @@
 HomeScene = require("./scenes/home.coffee")
+transport = require("./lib/transport.coffee")
 
 class Application
   constructor: ->
     console.log "Initialize application"
 
-    new HomeScene()
+    transport.one("character_game_data_loaded", (response)-> console.log "EHUI", response)
 
-    console.log "1111"
+    transport.send("loadCharacterGameData")
+
+    HomeScene.show()
 
 module.exports = Application

@@ -49,7 +49,7 @@ var assets = [
 // common for production and development
 function compileEco(){
   return gulp.src(eco_files_path)
-    .pipe(eco())
+    .pipe(eco({basePath: 'js/views'}))
     .pipe(concat(compiled_eco_js))
     .pipe(gulp.dest(build_path));
 }
