@@ -4,7 +4,6 @@ import (
 	"os"
 	"github.com/chizhovdee/rpg/server/config"
 	"github.com/chizhovdee/rpg/server/handlers"
-	"fmt"
 )
 
 func init() {

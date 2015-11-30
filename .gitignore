@@ -34,3 +34,13 @@ doc/
 /server/public/assets
 /client/build
 
+
+# Ignore bundler config.
+/tools/.bundle
+
+# Ignore all logfiles and tempfiles.
+/tools/log/*
+!/tools/log/.keep
+/tools/tmp
+
+
