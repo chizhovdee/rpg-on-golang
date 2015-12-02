@@ -23,12 +23,7 @@ transport =
   processResponse: (response)->
     console.log(response)
 
-    if response.event_type?
-      @.trigger(response.event_type, response)
-
-    else
-      console.error("No response event type")
-      console.log(response)
+    @.trigger(res.event_type, res.data) for res in response
 
   prefixUrl: (url)->
     "/api/777/#{url}"

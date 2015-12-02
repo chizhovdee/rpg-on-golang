@@ -88,7 +88,7 @@ gulp.task('compile-eco-and-coffee', ['compile-coffee'], function () {
 });
 
 // development
-gulp.task('watch-css', function() {
+gulp.task('watch-css', ["compile-assets"], function() {
   gulp.watch(sass_files_path, ['compile-css']);
 });
 
