@@ -3,7 +3,7 @@ $ = Spine.$
 
 transport =
   one: (eventName, callback)->
-   Spine.Events.one(eventName, callback)
+    Spine.Events.one(eventName, callback)
 
   bind: (eventName, callback)->
     Spine.Events.bind(eventName, callback)
