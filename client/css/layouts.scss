@@ -1,0 +1,33 @@
+body {
+  background-color: #ffffff;
+  font-familyt: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#application {
+  position: relative;
+  margin: auto;
+  width: 760px;
+  height: 680px;
+  border: {
+    left: 1px solid black;
+    right: 1px solid black;
+  }
+}
+
+#main_header {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  .profile, .level, .experience, .gold, .gems, .health, .energy {
+    position: absolute;
+  }
+  width: 760px;
+
+  .gems {
+    width: 100px;
+    height: 20px;
+    top: 0px;
+    right: 10px;
+    border: 1px solid black;
+  }
+}

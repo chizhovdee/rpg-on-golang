@@ -1,4 +1,17 @@
-<h2>Home Scene</h2>
-<p>Это первая сцена в игре</p>
+<div id="main_header">
+    <div class="profile">
+        Профиль
+    </div>
 
-<%= @first_data %>
+    <div class="level">1</div>
+
+    <div class="experience">1 / 100</div>
+
+    <div class="gold">100</div>
+
+    <div class="gems">10</div>
+
+    <div class="health">100 / 100</div>
+
+    <div class="energy">10 / 10</div>
+</div>
