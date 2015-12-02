@@ -1,32 +1,29 @@
 package main
 import (
-	"net/http"
-	"html/template"
-	"path/filepath"
+	"github.com/gin-gonic/gin"
+	"os"
+	"github.com/chizhovdee/rpg/server/config"
 	"github.com/chizhovdee/rpg/server/handlers"
 )
 
-func main(){
-	mux := http.NewServeMux()
-
-	// статичные файлы
-	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
-
-	mux.HandleFunc("/", index)
-
-	handlers.SetupShopHandlers(mux)
-
-	server := &http.Server{
-		Addr: "0.0.0.0:8080",
-		Handler: mux,
+func init() {
+	if os.Getenv("ENV") == "" {
+		os.Setenv("ENV", "development")
 	}
 
-	server.ListenAndServe()
+	if os.Getenv("PORT") == "" && os.Getenv("ENV") == "development" {
+		os.Setenv("PORT", "3000")
+	}
 }
 
-func index(w http.ResponseWriter, r *http.Request) {
-	templ := template.Must(template.ParseFiles(filepath.Join("views", "index.html")))
+func main(){
+	app := config.NewApplication()
 
-	templ.Execute(w, nil)
+	handlers.SetupApplication(app)
+
+	router := gin.Default()
+
+	setupRoutes(router)
+
+	router.Run(":" + os.Getenv("PORT"))
 }
-

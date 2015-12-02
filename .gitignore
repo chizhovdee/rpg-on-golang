@@ -9,6 +9,8 @@
 /log/*.log
 /tmp
 *.log
+/server/tmp
+*-bin
 
 doc/
 *.swp
@@ -24,8 +26,21 @@ doc/
 .codeintel
 .idea
 
+
 /node_modules
 /client/node_modules
 /client/assets
 /server/assets
+/server/public/assets
+/client/build
+
+
+# Ignore bundler config.
+/tools/.bundle
+
+# Ignore all logfiles and tempfiles.
+/tools/log/*
+!/tools/log/.keep
+/tools/tmp
+
 
