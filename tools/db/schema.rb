@@ -14,14 +14,17 @@
 ActiveRecord::Schema.define(version: 20151130173559) do
 
   create_table "characters", force: :cascade do |t|
-    t.integer  "ep",         limit: 4
-    t.integer  "energy",     limit: 4
-    t.integer  "hp",         limit: 4
-    t.integer  "health",     limit: 4
-    t.integer  "experience", limit: 4, default: 0
-    t.integer  "points",     limit: 4, default: 0
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "level",       limit: 4, default: 1
+    t.integer  "ep",          limit: 4, default: 0
+    t.integer  "energy",      limit: 4, default: 0
+    t.integer  "hp",          limit: 4, default: 0
+    t.integer  "health",      limit: 4, default: 0
+    t.integer  "experience",  limit: 4, default: 0
+    t.integer  "points",      limit: 4, default: 0
+    t.integer  "basic_money", limit: 4, default: 0
+    t.integer  "vip_money",   limit: 4, default: 0
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
 end

@@ -1,21 +1,17 @@
 Scene = require("./base.coffee")
+Character = require("../models/character.coffee")
 
 class HomeScene extends Scene
   className: "home scene"
 
-  constructor: ->
-    super
-
-    console.log "HOME SCENE"
-
   show: ->
     super
 
-    @first_data = 1111111111
+    console.log @character = Character.first()
 
     @.render()
 
   render: ->
-    @el.html(@.renderTemplate("home/index"))
+    @html(@.renderTemplate("home/index"))
 
 module.exports = HomeScene

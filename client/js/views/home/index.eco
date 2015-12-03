@@ -3,15 +3,34 @@
         Профиль
     </div>
 
-    <div class="level">1</div>
+    <div class="level">
+        <span class="value"><%= @character.level %></span>
+    </div>
 
-    <div class="experience">1 / 100</div>
+    <div class="experience">
+        <span class="value"><%= @character.experience  %> / 100</span>
+    </div>
 
-    <div class="gold">100</div>
+    <div class="gold">
+        <span class="value"><%= @character.basic_money %></span>
+    </div>
 
-    <div class="gems">10</div>
+    <div class="gems">
+        <span class="value"><%= @character.vip_money %></span>
+        <span class="add_button"></span>
+    </div>
 
-    <div class="health">100 / 100</div>
+    <div class="health">
+        <span class="value"><%= @character.hp %> / <%= @character.health %></span>
+    </div>
 
-    <div class="energy">10 / 10</div>
+    <div class="energy">
+        <span class="value"><%= @character.ep %> / <%= @character.energy %></span>
+    </div>
+</div>
+
+<div id="main_menu">
+    <div class="menu missions">Миссии</div>
+    <div class="menu monsters">Монстры</div>
+    <div class="menu shop">Магазин</div>
 </div>

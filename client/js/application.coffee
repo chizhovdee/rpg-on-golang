@@ -1,6 +1,8 @@
 HomeScene = require("./scenes/home.coffee")
 transport = require("./lib/transport.coffee")
 
+Character = require("./models/character.coffee")
+
 class Application
   constructor: ->
     console.log "Initialize application"
@@ -13,8 +15,7 @@ class Application
     transport.one("character_game_data_loaded", @.onCharacterGameDataLoaded)
 
   onCharacterGameDataLoaded: (response)->
-    console.log "onCharacterGameDataLoaded"
-    console.log response
+    Character.create(response.character)
 
     HomeScene.show()
 
