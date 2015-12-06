@@ -1,33 +1,4 @@
-<div id="main_header">
-    <div class="profile">
-        Профиль
-    </div>
-
-    <div class="level">
-        <span class="value"><%= @character.level %></span>
-    </div>
-
-    <div class="experience">
-        <span class="value"><%= @character.experience  %> / 100</span>
-    </div>
-
-    <div class="gold">
-        <span class="value"><%= @character.basic_money %></span>
-    </div>
-
-    <div class="gems">
-        <span class="value"><%= @character.vip_money %></span>
-        <span class="add_button"></span>
-    </div>
-
-    <div class="health">
-        <span class="value"><%= @character.hp %> / <%= @character.health %></span>
-    </div>
-
-    <div class="energy">
-        <span class="value"><%= @character.ep %> / <%= @character.energy %></span>
-    </div>
-</div>
+<div id="main_header"></div>
 
 <div id="main_menu">
     <div class="menu missions">Миссии</div>

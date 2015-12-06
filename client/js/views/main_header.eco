@@ -1,0 +1,36 @@
+<div class="profile">
+    Профиль
+</div>
+
+<div class="level">
+    <span class="value"><%= @character.level %></span>
+</div>
+
+<div class="experience">
+    <span class="value"><%= @character.experience  %> / 100</span>
+</div>
+
+<div class="gold">
+    <span class="value"><%= @character.basic_money %></span>
+</div>
+
+<div class="gems">
+    <span class="value"><%= @character.vip_money %></span>
+    <span class="add_button"></span>
+</div>
+
+<div class="health">
+    <%=@safe @.progressBar(@character.restorable("hp") / @character.health * 100) %>
+
+    <div class="value"><%= @character.restorable("hp") %> / <%= @character.health %></div>
+
+    <div class="timer"></div>
+</div>
+
+<div class="energy">
+    <%=@safe @.progressBar(@character.restorable("ep") / @character.energy * 100) %>
+
+    <div class="value"><%= @character.restorable("ep") %> / <%= @character.energy %></div>
+
+    <div class="timer"></div>
+</div>

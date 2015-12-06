@@ -45,7 +45,6 @@ var assets = [
   build_path + "/" + compiled_css
 ];
 
-
 // common for production and development
 function compileEco(){
   return gulp.src(eco_files_path)
@@ -101,6 +100,7 @@ gulp.task('compile-js', ['compile-eco-and-coffee'], function() {
     vendor_path_js + "/jquery.js",
     vendor_path_js + "/underscore.js",
     vendor_path_js + "/spine.js",
+    vendor_path_js + "/visibility.min.js",
     build_path + "/" + compiled_eco_js,
     build_path + "/" + compiled_js
   ])
@@ -134,6 +134,7 @@ gulp.task('production:compile-js', ['compile-and-compress-js'], function() {
     vendor_path_js + "/jquery.min.js",
     vendor_path_js + "/underscore.min.js",
     vendor_path_js + "/spine.min.js",
+    vendor_path_js + "/visibility.min.js",
     build_path + "/" + compiled_js
   ])
     .pipe(concat(compiled_js))

@@ -35,6 +35,7 @@
   "browserify-shim": {
     "spine": "global:Spine",
     "jquery": "global:jQuery",
-    "underscore": "global:_"
+    "underscore": "global:_",
+    "visibility": "global:Visibility"
   }
 }

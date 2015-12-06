@@ -1,15 +1,20 @@
 Spine = require("spine")
-config = require("../config.coffee")
+RenderUtils = require("../utils/render.coffee")
+TimeUtils = require("../utils/time.coffee")
+
 $ = Spine.$
 
 class Scene extends Spine.Controller
+  @include RenderUtils
+  @include TimeUtils
+
   @show: ->
     @scene ?= new @()
     @scene.show()
 
   @hide: ->
     # утилизация
-    @scene.hide()
+    @scene?.hide()
     @scene = null
 
   show: ->
@@ -20,7 +25,7 @@ class Scene extends Spine.Controller
   hide: ->
     console.log "Hide Scene"
 
-  renderTemplate: (name)->
-    JST[name](@)
+    @el.remove()
+
 
 module.exports = Scene

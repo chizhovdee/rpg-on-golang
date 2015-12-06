@@ -14,8 +14,6 @@ func CharactersGameData(c *gin.Context){
 
 	character := obj.(*models.Character)
 
-	fmt.Println("Health", character.Health)
-
 	responseEvent(c, "character_game_data_loaded", gin.H{
 		"character": character.AsJson(),
 	})

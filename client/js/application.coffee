@@ -1,6 +1,5 @@
 HomeScene = require("./scenes/home.coffee")
 transport = require("./lib/transport.coffee")
-
 Character = require("./models/character.coffee")
 
 class Application
