@@ -20,13 +20,10 @@ TimeUtils =
     else
       result = "#{ result }#{ minutes }"
 
-    if value >= 60
-      if seconds < 10
-        result = "#{ result }:0#{ seconds }"
-      else
-        result = "#{ result }:#{ seconds }"
+    if seconds < 10
+      result = "#{ result }:0#{ seconds }"
     else
-      result = seconds
+      result = "#{ result }:#{ seconds }"
 
     result
 

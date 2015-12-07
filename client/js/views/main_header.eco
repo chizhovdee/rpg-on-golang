@@ -20,7 +20,7 @@
 </div>
 
 <div class="health">
-    <%=@safe @.progressBar(@character.restorable("hp") / @character.health * 100) %>
+    <%=@safe @.progressBar(@character.hpPercentage()) %>
 
     <div class="value"><%= @character.restorable("hp") %> / <%= @character.health %></div>
 
@@ -28,7 +28,7 @@
 </div>
 
 <div class="energy">
-    <%=@safe @.progressBar(@character.restorable("ep") / @character.energy * 100) %>
+    <%=@safe @.progressBar(@character.epPercentage()) %>
 
     <div class="value"><%= @character.restorable("ep") %> / <%= @character.energy %></div>
 

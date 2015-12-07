@@ -3,39 +3,32 @@ import "time"
 
 //  Атрибуты востанавливающиеся по времени
 
-func (c *Character) RestorableEp() int64 {
-	if c.Ep_updated_at.Unix() < 0 {
-		return c.Ep
 
-	} else if c.Ep_updated_at.Before(time.Now().Add(-FULL_REFILL_DURATION)) {
-		return c.EnergyPoints()
 
-	} else {
-		calculatedValue := c.Ep + c.restoresSinceLastUpdate("ep")
+func (c *Character) Restorable(attribute string) int64 {
+	var updated_at time.Time
+	var total int64
+	var current int64
 
-		if calculatedValue >= c.HealthPoints() {
-			return c.EnergyPoints()
-
-		} else if calculatedValue < 0 {
-			return 0
-		}
-
-		return calculatedValue
+	switch attribute {
+	case "hp":
+		updated_at = c.Hp_updated_at
+		total = c.HealthPoints()
+		current = c.Hp
+	case "ep":
+		updated_at = c.Ep_updated_at
+		total = c.EnergyPoints()
+		current = c.Ep
 	}
-}
 
-func (c *Character) RestorableHp() int64 {
-	if c.Hp_updated_at.Unix() < 0 {
-		return c.Hp
-
-	} else if c.Hp_updated_at.Before(time.Now().Add(-FULL_REFILL_DURATION)) {
-		return c.HealthPoints()
+	if updated_at.Before(time.Now().Add(-FULL_REFILL_DURATION)) {
+		return total
 
 	} else {
-		calculatedValue := c.Hp + c.restoresSinceLastUpdate("hp")
+		calculatedValue := current + c.restoresSinceLastUpdate(attribute)
 
-		if calculatedValue >= c.HealthPoints() {
-			return c.HealthPoints()
+		if calculatedValue >= total {
+			return total
 
 		} else if calculatedValue < 0 {
 			return 0
@@ -58,6 +51,7 @@ func (c *Character) restoresSinceLastUpdate(attribute string) int64 {
 	return int64((time.Now().Unix() - updated_at.Unix()) / c.restoreSeconds(attribute))
 }
 
+
 func (c *Character) restoreSeconds(attribute string) int64 {
 	var duration time.Duration
 
@@ -72,6 +66,5 @@ func (c *Character) restoreSeconds(attribute string) int64 {
 }
 
 func (c *Character) restoreBonus(attribute string) float64 {
-	// для дальнейшего заполнения
 	return float64(0)
 }

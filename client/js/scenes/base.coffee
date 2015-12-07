@@ -1,23 +1,21 @@
-Spine = require("spine")
-RenderUtils = require("../utils/render.coffee")
-TimeUtils = require("../utils/time.coffee")
+BaseController = require("../lib/base_controller.coffee")
 
-$ = Spine.$
-
-class Scene extends Spine.Controller
-  @include RenderUtils
-  @include TimeUtils
-
+class Scene extends BaseController
   @show: ->
+    super
+
     @scene ?= new @()
     @scene.show()
 
   @hide: ->
-    # утилизация
+    super
+
     @scene?.hide()
     @scene = null
 
   show: ->
+    super
+
     console.log "Show Scene"
 
     $("#application").append(@el)
@@ -25,7 +23,7 @@ class Scene extends Spine.Controller
   hide: ->
     console.log "Hide Scene"
 
-    @el.remove()
+    super
 
 
 module.exports = Scene

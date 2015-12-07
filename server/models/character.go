@@ -1,10 +1,45 @@
+/**
+Методы и поля синхронизинованные с клиентом.
+Любые изменение значения полей или реализации на сервере,
+должны быть применены к клиенту
+
+Константы
+-----------------------------------------
+FULL_REFILL_DURATION
+HP_RESTORE_DURATION
+EP_RESTORE_DURATION
+
+Поля
+------------------------------------------
+Level
+Energy
+Ep
+Ep_updated_at
+Health
+Hp_updated_at
+Experience
+Basic_money
+Vip_money
+
+
+Методы
+-----------------------------------------
+EnergyPoints()
+HealthPoints()
+Restorable()
+restoresSinceLastUpdate()
+restoreSeconds()
+restoreBonus()
+
+ */
+
 package models
 import "time"
 
 const (
 	FULL_REFILL_DURATION = time.Hour * 12
-	HP_RESTORE_DURATION  = time.Minute * 1
-	EP_RESTORE_DURATION  = time.Minute * 2
+	HP_RESTORE_DURATION  = time.Second * 30
+	EP_RESTORE_DURATION  = time.Second * 45
 )
 
 type Character struct {
@@ -32,23 +67,21 @@ func (c *Character) AsJson() map[string]interface{} {
 		"id": c.Id,
 		"level": c.Level,
 		"ep": c.Ep,
-		"energy": c.EnergyPoints(),
+		"energy": c.Energy,
 		"hp": c.Hp,
-		"health": c.HealthPoints(),
+		"health": c.Health,
 		"experience": c.Experience,
 		"basic_money": c.Basic_money,
 		"vip_money": c.Vip_money,
 		"full_refill_duration": fullRefillDuration.Seconds(),
 		"hp_restore_duration": hpRestoreDuration.Seconds(),
 		"ep_restore_duration": epRestoreDuration.Seconds(),
-		"hp_restore_bonus": c.restoreBonus("hp"),
-		"ep_restore_bonus": c.restoreBonus("ep"),
 		"hp_updated_at": c.Hp_updated_at.Unix(),
 		"ep_updated_at": c.Ep_updated_at.Unix(),
 
 		// for test
-		"restorable_hp": c.RestorableHp(),
-		"restorable_ep": c.RestorableEp(),
+		"restorable_hp": c.Restorable("hp"),
+		"restorable_ep": c.Restorable("ep"),
 	}
 }
 

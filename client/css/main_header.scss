@@ -141,10 +141,16 @@
       width: 133px;
       height: 16px;
 
-      .progress {
+      .percentage {
         height: 16px;
         background-color: #86EE89;
       }
+    }
+
+    .timer {
+      position: absolute;
+      top: 0px;
+      left: 155px;
     }
   }
 
@@ -184,10 +190,16 @@
       width: 133px;
       height: 16px;
 
-      .progress {
+      .percentage {
         height: 16px;
         background-color: #FFF935;
       }
+    }
+
+    .timer {
+      position: absolute;
+      top: 0px;
+      left: 155px;
     }
   }
 }
