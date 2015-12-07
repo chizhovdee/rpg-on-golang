@@ -25,6 +25,8 @@ var coffeeify  = require('coffeeify'); // coffee compilation
 var eco = require('gulp-eco'); // eco compilation    forked https://github.com/chizhovdee/gulp-eco
 var sass = require('gulp-sass'); // sass compilation
 
+var notify = require('gulp-notify');
+
 var root = ".";
 
 var server_assets_path = "../server/public/assets";
@@ -66,7 +68,15 @@ function compileCss(){
 gulp.task('coffee-lint', function () {
   return gulp.src(coffee_files_path)
     .pipe(coffeelint())
-    .pipe(coffeelint.reporter());
+    .pipe(notify({
+      title: "Coffeelint error",
+      message: function(file){
+        if(!file.coffeelint.success){
+          return "Found " + file.coffeelint.errorCount + " Errors and " +
+            file.coffeelint.warningCount + " Warnings \n" + "File path: " + file.relative;
+        }
+      }
+    })).pipe(coffeelint.reporter());
 });
 
 gulp.task("compile-css", function() {
