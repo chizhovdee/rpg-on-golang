@@ -9,7 +9,5 @@ func SetCurrentCharacter() gin.HandlerFunc {
 		character := models.FindCharacter(1)
 
 		c.Set("current_character", character)
-
-		c.Next()
 	}
 }
