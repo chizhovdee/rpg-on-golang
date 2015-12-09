@@ -1,5 +1,7 @@
 CharacterRestorableAttributes =
   restorable: (attribute)->
+    # server duplicate
+
     total = (
       switch attribute
         when "hp"
@@ -23,11 +25,15 @@ CharacterRestorableAttributes =
         calculatedValue
 
   restoreSeconds: (attribute)->
+    # server duplicate
+
     throw new Error("Requires one argument") unless attribute?
 
     Math.floor(@["#{attribute}_restore_duration"] * (100 - @.restoreBonus(attribute)) / 100)
 
   restoresSinceLastUpdate: (attribute)->
+    # server duplicate
+
     Math.floor(
       (
         Math.floor((Date.now() / 1000)) - @["#{attribute}_updated_at"]
@@ -35,6 +41,8 @@ CharacterRestorableAttributes =
     )
 
   restoreBonus: (attribute)->
+    # server duplicate
+
     switch attribute
       when "hp"
         0

@@ -28,9 +28,6 @@ class MainHeaderLayer extends Layer
     console.log "Hp", "serv:", @character.restorable_hp, "client:", @character.restorable("hp")
     console.log "Ep", "serv:", @character.restorable_ep, "client:", @character.restorable("ep")
 
-    console.log "last hp secs", @character.secondsSinceLastUpdate("hp")
-    console.log "last ep secs", @character.secondsSinceLastUpdate("ep")
-
     @.render()
 
     @.setupTimers()
@@ -41,52 +38,55 @@ class MainHeaderLayer extends Layer
   bindEventListeners: ->
     super
 
-    @character.bind("beforeUpdate", @.onCharacterUpdate)
-    @character.bind("beforeUpdate", @.onCharacterUpdate1)
+    @character.bind("update", (args...)=> @.onCharacterUpdate(args...))
 
   unbindEventListeners: ->
     super
 
-    @character.unbind("beforeUpdate", @.onCharacterUpdate)
-    @character.unbind("beforeUpdate", @.onCharacterUpdate1)
+    @character.unbind("update", (args...)=> @.onCharacterUpdate(args...))
 
   setupTimers: ->
-    @epTimer = new VisualTimer(@energyEl.find(".timer"), @.updateEp)
-    @hpTimer = new VisualTimer(@healthEl.find(".timer"), @.updateHp)
+    @epTimer = new VisualTimer(@energyEl.find(".timer"), => @.updateEp())
+    @hpTimer = new VisualTimer(@healthEl.find(".timer"), => @.updateHp())
 
-    @epTimer.start(@character.secondsSinceLastUpdate("ep"))
-    @hpTimer.start(@character.secondsSinceLastUpdate("hp"))
+    @.startEpTimer()
+    @.startHpTimer()
 
-  updateEp: =>
+  updateEp: ->
     console.log "Updated ep"
 
     @energyEl.find(".value").text("#{ @character.restorable("ep") } / #{ @character.energyPoints() }")
     @energyEl.find(".progress").css(width: "#{ @character.epPercentage() }%")
 
+    @.startEpTimer()
+
+  startEpTimer: ->
     if @character.restorable("ep") < @character.energyPoints()
       @epTimer.start(@character.secondsSinceLastUpdate("ep"))
 
     console.log "last hp secs", @character.secondsSinceLastUpdate("ep")
 
-  updateHp: =>
+  updateHp: ->
     console.log "Updated hp"
 
     @healthEl.find(".value").text("#{ @character.restorable("hp") } / #{ @character.healthPoints() }")
     @healthEl.find(".progress").css(width: "#{ @character.hpPercentage() }%")
 
+    @.startHpTimer()
+
+  startHpTimer: ->
     if @character.restorable("hp") < @character.healthPoints()
       @hpTimer.start(@character.secondsSinceLastUpdate("hp"))
 
     console.log "last hp secs", @character.secondsSinceLastUpdate("hp")
 
-  onCharacterUpdate: (args...)=>
+  onCharacterUpdate: (character)->
     console.log "Character Update"
-    console.log args[0].clone(args[0].attributes())
-    console.log @character.attributes().hp
-    console.log args[0].attributes().hp
-    console.log args[1]
+    console.log changes = character.changes()
 
-  onCharacterUpdate1: =>
-    console.log "onCharacterUpdate1"
+    @.updateHp() if changes.hp?
+    @.updateEp() if changes.ep?
+
+
 
 module.exports = MainHeaderLayer

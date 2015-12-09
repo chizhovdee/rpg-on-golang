@@ -85,6 +85,25 @@ func (c *Character) AsJson() map[string]interface{} {
 	}
 }
 
+
+func (c *Character) GetHp() int64 {
+	return c.Restorable("hp")
+}
+
+func (c *Character) GetEp() int64 {
+	return c.Restorable("ep")
+}
+
+func (c *Character) SetHp(value int64) {
+	c.Hp = c.Restorable("hp") + value
+	c.Hp_updated_at = time.Now()
+}
+
+func (c *Character) SetEp(value int64) {
+	c.Ep = c.Restorable("ep") + value
+	c.Ep_updated_at = time.Now()
+}
+
 func (c *Character) EnergyPoints() int64 {
 	return c.Energy
 }
@@ -92,3 +111,5 @@ func (c *Character) EnergyPoints() int64 {
 func (c *Character) HealthPoints() int64 {
 	return c.Health
 }
+
+

@@ -34,7 +34,6 @@ class HomeScene extends Scene
     @el.off("click", ".menu.missions", @.onMenuClick)
 
   onMenuClick: (e)=>
-    @character.updateAttributes(hp: @character.hp + 1)
-
+    console.log "Click missions"
 
 module.exports = HomeScene

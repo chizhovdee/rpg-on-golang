@@ -3,8 +3,7 @@ import "time"
 
 //  Атрибуты востанавливающиеся по времени
 
-
-
+// public
 func (c *Character) Restorable(attribute string) int64 {
 	var updated_at time.Time
 	var total int64
@@ -37,6 +36,8 @@ func (c *Character) Restorable(attribute string) int64 {
 		return calculatedValue
 	}
 }
+
+// private
 
 func (c *Character) restoresSinceLastUpdate(attribute string) int64 {
 	var updated_at time.Time
