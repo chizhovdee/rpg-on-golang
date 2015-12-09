@@ -34,7 +34,10 @@ restoreBonus()
  */
 
 package models
-import "time"
+import (
+	"time"
+	"log"
+)
 
 const (
 	FULL_REFILL_DURATION = time.Hour * 12
@@ -57,6 +60,20 @@ type Character struct {
 }
 
 // public
+
+func FindCharacter(id int64) *Character {
+	obj, err := App.DbMap.Get(Character{}, id)
+
+	if err != nil {
+		log.Println("Gorp Error", err.Error())
+	}
+
+	if obj != nil {
+		return obj.(*Character)
+	} else {
+		return nil
+	}
+}
 
 func (c *Character) AsJson() map[string]interface{} {
 	var fullRefillDuration time.Duration = FULL_REFILL_DURATION

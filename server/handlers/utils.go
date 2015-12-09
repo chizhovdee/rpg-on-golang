@@ -14,14 +14,17 @@ func respond(c *gin.Context) {
 
 	for key, data := range c.Keys {
 		parsedKey := strings.Split(key, "-")
-		prefix := parsedKey[0]
-		eventType := parsedKey[1]
 
-		if prefix == "event_type" {
-			response = append(response, gin.H{
-				"event_type": eventType,
-				"data": data,
-			})
+		if len(parsedKey) == 2 {
+			prefix := parsedKey[0]
+			eventType := parsedKey[1]
+
+			if prefix == "event_type" {
+				response = append(response, gin.H{
+					"event_type": eventType,
+					"data": data,
+				})
+			}
 		}
 	}
 

@@ -11,6 +11,9 @@ func setupRoutes(router *gin.Engine){
 
 	router.LoadHTMLFiles("views/index.html")
 
+
+	router.Use(SetCurrentCharacter())
+
 	router.GET("/", handlers.HomeIndex)
 
 	// API routers

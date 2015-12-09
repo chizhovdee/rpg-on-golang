@@ -10,13 +10,13 @@ type Base struct {
 	Updated_at  time.Time
 }
 
-func (c *Base) PreInsert(s gorp.SqlExecutor) error {
-	c.Created_at = time.Now()
-	c.Updated_at = c.Created_at
+func (model *Base) PreInsert(s gorp.SqlExecutor) error {
+	model.Created_at = time.Now()
+	model.Updated_at = model.Created_at
 	return nil
 }
 
-func (c *Base) PreUpdate(s gorp.SqlExecutor) error {
-	c.Updated_at = time.Now()
+func (model *Base) PreUpdate(s gorp.SqlExecutor) error {
+	model.Updated_at = time.Now()
 	return nil
 }
