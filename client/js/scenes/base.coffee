@@ -1,18 +1,21 @@
-Spine = require("spine")
-config = require("../config.coffee")
-$ = Spine.$
+BaseController = require("../lib/base_controller.coffee")
 
-class Scene extends Spine.Controller
+class Scene extends BaseController
   @show: ->
+    super
+
     @scene ?= new @()
     @scene.show()
 
   @hide: ->
-    # утилизация
-    @scene.hide()
+    super
+
+    @scene?.hide()
     @scene = null
 
   show: ->
+    super
+
     console.log "Show Scene"
 
     $("#application").append(@el)
@@ -20,7 +23,7 @@ class Scene extends Spine.Controller
   hide: ->
     console.log "Hide Scene"
 
-  renderTemplate: (name)->
-    JST[name](@)
+    super
+
 
 module.exports = Scene

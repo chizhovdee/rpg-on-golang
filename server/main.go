@@ -2,8 +2,11 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"os"
-	"github.com/chizhovdee/rpg/server/config"
+
+	"github.com/chizhovdee/rpg/server/models"
 	"github.com/chizhovdee/rpg/server/handlers"
+	"github.com/chizhovdee/rpg/server/config"
+
 )
 
 func init() {
@@ -20,6 +23,9 @@ func main(){
 	app := config.NewApplication()
 
 	handlers.SetupApplication(app)
+
+	models.SetupApplication(app)
+	models.SetupTables()
 
 	router := gin.Default()
 

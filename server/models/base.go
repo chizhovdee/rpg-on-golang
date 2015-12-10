@@ -6,17 +6,17 @@ import (
 
 type Base struct {
 	Id         int64
-	CreatedAt  time.Time `db:"created_at"`
-	UpdatedAt  time.Time `db:"updated_at"`
+	Created_at  time.Time
+	Updated_at  time.Time
 }
 
-func (c *Base) PreInsert(s gorp.SqlExecutor) error {
-	c.CreatedAt = time.Now()
-	c.UpdatedAt = c.CreatedAt
+func (model *Base) PreInsert(s gorp.SqlExecutor) error {
+	model.Created_at = time.Now()
+	model.Updated_at = model.Created_at
 	return nil
 }
 
-func (c *Base) PreUpdate(s gorp.SqlExecutor) error {
-	c.UpdatedAt = time.Now()
+func (model *Base) PreUpdate(s gorp.SqlExecutor) error {
+	model.Updated_at = time.Now()
 	return nil
 }

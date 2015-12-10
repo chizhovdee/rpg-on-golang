@@ -25,6 +25,8 @@ var coffeeify  = require('coffeeify'); // coffee compilation
 var eco = require('gulp-eco'); // eco compilation    forked https://github.com/chizhovdee/gulp-eco
 var sass = require('gulp-sass'); // sass compilation
 
+var notify = require('gulp-notify');
+
 var root = ".";
 
 var server_assets_path = "../server/public/assets";
@@ -44,7 +46,6 @@ var assets = [
   build_path + "/" + compiled_js,
   build_path + "/" + compiled_css
 ];
-
 
 // common for production and development
 function compileEco(){
@@ -67,7 +68,15 @@ function compileCss(){
 gulp.task('coffee-lint', function () {
   return gulp.src(coffee_files_path)
     .pipe(coffeelint())
-    .pipe(coffeelint.reporter());
+    .pipe(notify({
+      title: "Coffeelint error",
+      message: function(file){
+        if(!file.coffeelint.success){
+          return "Found " + file.coffeelint.errorCount + " Errors and " +
+            file.coffeelint.warningCount + " Warnings \n" + "File path: " + file.relative;
+        }
+      }
+    })).pipe(coffeelint.reporter());
 });
 
 gulp.task("compile-css", function() {
@@ -101,6 +110,7 @@ gulp.task('compile-js', ['compile-eco-and-coffee'], function() {
     vendor_path_js + "/jquery.js",
     vendor_path_js + "/underscore.js",
     vendor_path_js + "/spine.js",
+    vendor_path_js + "/visibility.min.js",
     build_path + "/" + compiled_eco_js,
     build_path + "/" + compiled_js
   ])
@@ -134,6 +144,7 @@ gulp.task('production:compile-js', ['compile-and-compress-js'], function() {
     vendor_path_js + "/jquery.min.js",
     vendor_path_js + "/underscore.min.js",
     vendor_path_js + "/spine.min.js",
+    vendor_path_js + "/visibility.min.js",
     build_path + "/" + compiled_js
   ])
     .pipe(concat(compiled_js))

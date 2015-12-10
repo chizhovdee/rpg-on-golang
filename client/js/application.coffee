@@ -1,20 +1,19 @@
 HomeScene = require("./scenes/home.coffee")
 transport = require("./lib/transport.coffee")
+Character = require("./models/character.coffee")
 
 class Application
   constructor: ->
     console.log "Initialize application"
 
-    @.bindEventListeners()
+    transport.one("character_game_data_loaded", @.onCharacterGameDataLoaded)
 
     transport.send("loadCharacterGameData")
 
-  bindEventListeners: ->
-    transport.one("character_game_data_loaded", @.onCharacterGameDataLoaded)
-
   onCharacterGameDataLoaded: (response)->
-    console.log "onCharacterGameDataLoaded"
-    console.log response
+    character = Character.create(response.character)
+
+    Character.bind("beforeUpdate", (record)-> record.setOldAttributes(character.attributes()))
 
     HomeScene.show()
 

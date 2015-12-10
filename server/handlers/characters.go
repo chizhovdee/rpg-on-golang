@@ -2,19 +2,17 @@ package handlers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/chizhovdee/rpg/server/models"
-	"fmt"
+	"log"
 )
 
 func CharactersGameData(c *gin.Context){
-	obj, err := App.DbMap.Get(models.Character{}, 1)
+	character := c.MustGet("current_character").(*models.Character)
 
-	if err != nil {
-		fmt.Println(err.Error())
+	log.Println("Character", character)
+
+	if character == nil {
+		return
 	}
-
-	character := obj.(*models.Character)
-
-	fmt.Println("Health", character.Health)
 
 	responseEvent(c, "character_game_data_loaded", gin.H{
 		"character": character.AsJson(),

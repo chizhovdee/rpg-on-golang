@@ -6,9 +6,13 @@ import (
 
 func setupRoutes(router *gin.Engine){
 	router.Static("/assets", "./public/assets")
+	router.Static("/images", "./public/images")
 	//router.StaticFS("/assets", assetFS())
 
 	router.LoadHTMLFiles("views/index.html")
+
+
+	router.Use(SetCurrentCharacter())
 
 	router.GET("/", handlers.HomeIndex)
 

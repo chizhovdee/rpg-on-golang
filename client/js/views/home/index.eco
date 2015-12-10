@@ -1,4 +1,7 @@
-<h2>Home Scene</h2>
-<p>Это первая сцена в игре</p>
+<div id="main_header"></div>
 
-<%= @first_data %>
+<div id="main_menu">
+    <div class="menu missions">Миссии</div>
+    <div class="menu monsters">Монстры</div>
+    <div class="menu shop">Магазин</div>
+</div>

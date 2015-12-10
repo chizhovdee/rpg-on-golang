@@ -1,0 +1,205 @@
+#main_header {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 760px;
+
+  .profile, .level, .experience, .gold, .gems, .health, .energy {
+    position: absolute;
+  }
+
+  .profile {
+    top: 0px;
+    left: 0px;
+    width: 75px;
+    height: 75px;
+    border: 1px solid;
+  }
+
+  .level {
+    width: 50px;
+    height: 25px;
+    line-height: 25px;
+    top: 0px;
+    left: 76px;
+    text-align: center;
+    border: 1px solid black;
+    font-weight: bold;
+  }
+
+  .experience {
+    width: 150px;
+    height: 25px;
+    line-height: 25px;
+    top: 0px;
+    left: 127px;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 15px;
+  }
+
+  .gems {
+    width: 122px;
+    height: 25px;
+    top: 0px;
+    right: 130px;
+    border: 1px solid black;
+    line-height: 25px;
+
+    &:before {
+      content: "";
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+      vertical-align: top;
+      background-image: url("/images/vip_money_icon_medium.png");
+      border-right: 1px solid black;
+    }
+
+    .value, .add_button, &:before {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .value {
+      width: 60px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .add_button {
+      width: 25px;
+      height: 25px;
+      background-image: url("/images/add_button_medium.png");
+      cursor: pointer;
+      border-left: 1px solid black;
+    }
+  }
+
+  .gold {
+    width: 130px;
+    height: 25px;
+    top: 0px;
+    right: 300px;
+    border: 1px solid black;
+    line-height: 25px;
+
+    &:before {
+      content: "";
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+      vertical-align: top;
+      background-image: url("/images/basic_money_icon_medium.png");
+      border-right: 1px solid black;
+    }
+
+    .value, &:before {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .value {
+      width: 98px;
+      text-align: center;
+      font-size: 16px;
+    }
+  }
+
+  .health {
+    width: 150px;
+    height: 16px;
+    top: 26px;
+    left: 76px;
+    border: 1px solid black;
+
+    &:before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      vertical-align: top;
+      background-image: url("/images/health_icon_small.png");
+      border-right: 1px solid black;
+    }
+
+    .value {
+      position: absolute;
+      top: 0px;
+      left: 17px;
+      width: 133px;
+      height: 16px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 16px;
+    }
+
+    .progress_bar {
+      position: absolute;
+      top: 0px;
+      left: 17px;
+      width: 133px;
+      height: 16px;
+
+      .percentage {
+        height: 16px;
+        background-color: #86EE89;
+      }
+    }
+
+    .timer {
+      position: absolute;
+      top: 0px;
+      left: 155px;
+    }
+  }
+
+  .energy {
+    width: 150px;
+    height: 16px;
+    top: 43px;
+    left: 76px;
+    border: 1px solid black;
+    line-height: 16px;
+
+    &:before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      vertical-align: top;
+      background-image: url("/images/energy_icon_small.png");
+      border-right: 1px solid black;
+    }
+
+    .value {
+      position: absolute;
+      top: 0px;
+      left: 17px;
+      width: 133px;
+      height: 16px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 16px;
+    }
+
+    .progress_bar {
+      position: absolute;
+      top: 0px;
+      left: 17px;
+      width: 133px;
+      height: 16px;
+
+      .percentage {
+        height: 16px;
+        background-color: #FFF935;
+      }
+    }
+
+    .timer {
+      position: absolute;
+      top: 0px;
+      left: 155px;
+    }
+  }
+}
