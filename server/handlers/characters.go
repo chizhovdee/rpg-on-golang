@@ -9,13 +9,15 @@ import (
 func CharactersGameData(c *gin.Context){
 	character := c.MustGet("current_character").(*models.Character)
 
-	m := game_data.LoadMissions()
+	m := game_data.Missions.All()[0]
 
 	log.Println()
 	log.Println("------------------------------------------")
 
 	log.Println("Mission", m.Id)
     log.Println("------------------------------------------")
+
+	log.Println(game_data.Missions.AsJson())
 
 	if character == nil {
 		// TO DO
@@ -24,6 +26,7 @@ func CharactersGameData(c *gin.Context){
 
 	responseEvent(c, "character_game_data_loaded", gin.H{
 		"character": character.AsJson(),
+		"missions": game_data.Missions.All(),
 	})
 
 	respond(c)

@@ -26,6 +26,7 @@ var eco = require('gulp-eco'); // eco compilation    forked https://github.com/c
 var sass = require('gulp-sass'); // sass compilation
 
 var notify = require('gulp-notify');
+var shell = require('gulp-shell');
 
 var root = ".";
 
@@ -187,5 +188,9 @@ gulp.task('clean', function(cb) {
   cb.force = true;
 
   return del([build_path], cb);
+});
+
+gulp.task("server", function() {
+  gulp.src('').pipe(shell('cd ../server && fresh'));
 });
 

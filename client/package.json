@@ -22,7 +22,8 @@
     "gulp-notify": "^2.2.0",
     "gulp-notify-growl": "^1.0.2",
     "gulp-rev": "^6.0.1",
-    "gulp-sass": "^2.1.0"
+    "gulp-sass": "^2.1.0",
+    "gulp-shell": "^0.5.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
