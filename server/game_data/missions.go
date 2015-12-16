@@ -1,7 +1,6 @@
 package game_data
 import (
 	"errors"
-	"encoding/json"
 )
 
 type missions struct {
@@ -20,8 +19,12 @@ func (m *missions) AsJson() []interface{}{
 	data := []interface{}{}
 
 	for _, mission := range m.list {
-		js, _ := json.Marshal(mission)
-		data = append(data, js)
+		json := map[string]interface{}{
+			"id": mission.Id,
+			"key": mission.Key,
+
+		}
+		data = append(data, json)
 	}
 
 	return data
