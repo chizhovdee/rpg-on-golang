@@ -1,1 +1,0 @@
-console.log JSON.parse("[{"id":224668150,"key":"mission_1"},{"id":2490202188,"key":"mission_2"}]")

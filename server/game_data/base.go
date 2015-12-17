@@ -2,6 +2,7 @@ package game_data
 
 type Baser interface {
 	setIdByKey()
+	ForClient() map[string]interface{}
 }
 
 type Base struct {

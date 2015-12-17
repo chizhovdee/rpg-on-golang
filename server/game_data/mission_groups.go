@@ -1,16 +1,36 @@
 package game_data
 import "errors"
 
-type MissionGroup struct {
-	*Base
-}
-
 type missionGroups struct {
 	list []*MissionGroup
 	Count int
 }
 
 var MissionGroups *missionGroups = &missionGroups{}
+
+func (m *missionGroups) All() []*MissionGroup {
+	return m.list
+}
+
+func (m *missionGroups) ForClient() map[string]interface{} {
+	return forClient(
+		[]string{
+			"id",
+			"key",
+		},
+		m.baserList(),
+	)
+}
+
+func (m *missionGroups) baserList() []Baser {
+	list := make([]Baser, m.Count)
+
+	for index, obj := range m.All() {
+		list[index] = obj
+	}
+
+	return list
+}
 
 func (m *missionGroups) define(key string, block func(obj Baser)){
 	for _, mission := range m.list {
@@ -24,9 +44,4 @@ func (m *missionGroups) define(key string, block func(obj Baser)){
 
 	m.list = append(m.list, define(obj, block).(*MissionGroup))
 	m.Count = len(m.list)
-}
-
-func defineMissionGroups() {
-	MissionGroups.define("mission_group_1", func(obj Baser){})
-	MissionGroups.define("mission_group_2", func(obj Baser){})
 }

@@ -12,7 +12,8 @@ func gameData() map[string]interface{} {
 	game_data.Define()
 
 	return map[string]interface{}{
-		"missions": game_data.Missions.AsJson(),
+        "mission_groups": game_data.MissionGroups.ForClient(),
+		"missions": game_data.Missions.ForClient(),
 	}
 }
 
@@ -23,7 +24,7 @@ var ExportGameData = gofer.Register(gofer.Task{
 	Action: func(arguments ...string) error {
 		filename := "game_data.coffee"
 
-		fpath := filepath.Join(".", filename)
+		fpath := filepath.Join("../client/js/", filename)
 
 		tplFuncs := template.FuncMap{
 			"marshal": func(v interface {}) template.HTML {
@@ -31,7 +32,9 @@ var ExportGameData = gofer.Register(gofer.Task{
 				return template.HTML(a)
 			},
 		}
-		t := template.Must(template.New("game_data.coffee").Funcs(tplFuncs).ParseFiles("tasks/game_data.coffee"))
+		t := template.Must(
+			template.New("game_data.coffee.tpl").Funcs(tplFuncs).ParseFiles("tasks/game_data.coffee.tpl"),
+		)
 
 		f, e := os.Create(fpath)
 		if e != nil {
@@ -44,7 +47,6 @@ var ExportGameData = gofer.Register(gofer.Task{
 		if e != nil {
 			return e
 		}
-
 
 	    return nil
 	},

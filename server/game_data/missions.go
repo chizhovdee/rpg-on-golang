@@ -10,24 +10,29 @@ type missions struct {
 
 var Missions *missions = &missions{}
 
-
 func (m *missions) All() []*Mission {
 	return m.list
 }
 
-func (m *missions) AsJson() []interface{}{
-	data := []interface{}{}
+func (m *missions) ForClient() map[string]interface{} {
+	return forClient(
+		[]string{
+				"id",
+				"key",
+				"mission_group_key",
+			},
+		m.baserList(),
+	)
+}
 
-	for _, mission := range m.list {
-		json := map[string]interface{}{
-			"id": mission.Id,
-			"key": mission.Key,
+func (m *missions) baserList() []Baser {
+	list := make([]Baser, m.Count)
 
-		}
-		data = append(data, json)
+	for index, obj := range m.All() {
+		list[index] = obj
 	}
 
-	return data
+	return list
 }
 
 func (m *missions) define(key string, block func(obj Baser)){
@@ -43,21 +48,3 @@ func (m *missions) define(key string, block func(obj Baser)){
 	m.list = append(m.list, define(obj, block).(*Mission))
 	m.Count = len(m.list)
 }
-
-
-func defineMissions() {
-	defineMissionGroups()
-
-	Missions.define("mission_1", func(obj Baser){
-		m := obj.(*Mission)
-
-		m.Mission_group_key = "mission_group_1"
-	})
-
-	Missions.define("mission_2", func(obj Baser){
-		m := obj.(*Mission)
-
-		m.Mission_group_key = "mission_group_1"
-	})
-}
-
