@@ -1,4 +1,3 @@
-$ = require("jquery")
 Application = require("./application.coffee")
 
 $(->

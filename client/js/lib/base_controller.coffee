@@ -1,9 +1,6 @@
-Spine = require("spine")
 RenderUtils = require("../utils/render.coffee")
 TimeUtils = require("../utils/time.coffee")
 DesignUtils = require("../utils/design.coffee")
-
-$ = Spine.$
 
 class BaseController extends Spine.Controller
   @include RenderUtils

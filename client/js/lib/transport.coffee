@@ -1,6 +1,3 @@
-Spine = require("spine")
-$ = Spine.$
-
 transport =
   one: (eventName, callback)->
     Spine.Events.one(eventName, callback)

@@ -1,5 +1,3 @@
-Visibility = require("visibility")
-
 class Timer
   tickLength: 1000
 
