@@ -2,12 +2,6 @@ package game_data
 
 import "hash/crc32"
 
-
-func Define(){
-	defineMissionGroups()
-	defineMissions()
-}
-
 func define(obj Baser, block func(obj Baser)) Baser{
 	block(obj)
 

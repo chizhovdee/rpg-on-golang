@@ -8,15 +8,6 @@ import (
 	"encoding/json"
 )
 
-func gameData() map[string]interface{} {
-	game_data.Define()
-
-	return map[string]interface{}{
-        "mission_groups": game_data.MissionGroups.ForClient(),
-		"missions": game_data.Missions.ForClient(),
-	}
-}
-
 var ExportGameData = gofer.Register(gofer.Task{
 	Namespace:   "game_data",
 	Label:       "export",
@@ -42,7 +33,7 @@ var ExportGameData = gofer.Register(gofer.Task{
 		}
 		defer f.Close()
 
-		e = t.Execute(f, gameData())
+		e = t.Execute(f, game_data.ExportToClient())
 
 		if e != nil {
 			return e

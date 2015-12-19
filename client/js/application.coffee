@@ -1,6 +1,7 @@
 HomeScene = require("./scenes/home.coffee")
 transport = require("./lib/transport.coffee")
 Character = require("./models/character.coffee")
+gameData = require("./game_data.coffee")
 
 class Application
   constructor: ->
@@ -14,6 +15,8 @@ class Application
     character = Character.create(response.character)
 
     Character.bind("beforeUpdate", (record)-> record.setOldAttributes(character.attributes()))
+
+    gameData.define()
 
     HomeScene.show()
 

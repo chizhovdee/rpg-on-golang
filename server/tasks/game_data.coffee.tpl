@@ -1,7 +1,11 @@
 # Этот файл создан автоматически с помощью gofer game_data:export
 
-gameData =
-  mission_groups: {{ marshal .mission_groups }}
-  missions: {{ marshal .missions }}
+{{ range $key, $value := . }}
+{{$key}} = require("./game_data/{{$key}}.coffee")
+{{end}}
 
-module.exports = gameData
+module.exports =
+  define: ->
+    {{ range $key, $value := . }}
+    {{$key}}.define({{marshal $value}})
+    {{end}}
