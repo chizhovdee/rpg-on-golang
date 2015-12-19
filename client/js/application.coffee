@@ -1,7 +1,8 @@
-HomeScene = require("./scenes/home.coffee")
 transport = require("./lib/transport.coffee")
 Character = require("./models/character.coffee")
 gameData = require("./game_data.coffee")
+sceneManager = require("./lib/scene_manager.coffee")
+scenes = require("./scenes/scenes.coffee")
 
 class Application
   constructor: ->
@@ -18,6 +19,8 @@ class Application
 
     gameData.define()
 
-    HomeScene.show()
+    sceneManager.setup(scenes)
+
+    sceneManager.run("home")
 
 module.exports = Application
