@@ -1,10 +1,17 @@
 <div id="main_header"></div>
 
-
 <div id="missions">
     <h2>Missions</h2>
 
+    <div class="mission_groups">
+        <div class="tabs">
+            <%=@safe @.renderTemplate("missions/tabs") %>
+        </div>
+    </div>
 
+    <div class="mission_list">
+        <%=@safe @.renderTemplate("missions/mission_list") %>
+    </div>
 </div>
 
 <button class="back">Back</button>

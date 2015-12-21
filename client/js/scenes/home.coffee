@@ -25,13 +25,18 @@ class HomeScene extends Scene
     super
 
     @el.on("click", ".menu.missions", (e)=> @.onMenuClick(e))
+    @el.on("click", ".menu.shop", (e)=> @.onShopClick(e))
 
   unbindEventListeners: ->
     super
 
     @el.off("click", ".menu.missions", (e)=> @.onMenuClick(e))
+    @el.off("click", ".menu.shop", (e)=> @.onShopClick(e))
 
   onMenuClick: (e)->
     sceneManager.run("missions")
+
+  onShopClick: (e)->
+    console.log "Shop click"
 
 module.exports = HomeScene

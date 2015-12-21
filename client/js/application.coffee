@@ -10,6 +10,8 @@ class Application
 
     transport.one("character_game_data_loaded", @.onCharacterGameDataLoaded)
 
+    $(document).on("click", "button.back", -> sceneManager.run("home"))
+
     transport.send("loadCharacterGameData")
 
   onCharacterGameDataLoaded: (response)->

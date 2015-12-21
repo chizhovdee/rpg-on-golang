@@ -1,5 +1,39 @@
+//=require pagination.scss
+
 #missions {
   position: absolute;
   top: 110px;
   left: 0px;
+
+  .mission_groups {
+    .tabs {
+      @include pagination;
+
+      .tab {
+        display: inline-block;
+        vertical-align: middle;
+        width: 153px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        font-size: 18px;
+        border: 1px solid black;
+        margin: 5px 10px 0px 0px;
+        cursor: pointer;
+
+        &.current {font-weight: bold;}
+
+      }
+    }
+  }
+
+  .mission_list {
+    margin-top: 20px;
+
+    .mission {
+      height: 100px;
+      border: 1px solid black;
+      margin-bottom: 10px;
+    }
+  }
 }
