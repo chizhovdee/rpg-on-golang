@@ -1,5 +1,3 @@
-_ = require("underscore")
-
 utils =
   deepClone: (obj, excludesAttributes...)->
     if _.isObject(obj)

@@ -1,1 +1,25 @@
+body {
+  background-color: #ffffff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+}
 
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+.back {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  background-color: #111111;
+  font-size: 28px;
+  color: #ffffff;
+  border: 1px solid red;
+  padding: 10px;
+  cursor: pointer;
+}

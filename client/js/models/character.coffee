@@ -1,5 +1,3 @@
-Spine = require("spine")
-_ = require("underscore")
 utils = require("../utils/utils.coffee")
 CharacterRestorableAttributes = require("./character_restorable_attributes.coffee")
 

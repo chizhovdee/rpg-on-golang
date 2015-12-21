@@ -8,6 +8,9 @@
  *  clean
  */
 
+//Error: watch ENOSPC fix with
+//echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
 var gulp       = require('gulp');
 
 var coffeelint = require('gulp-coffeelint'); // проверка синтаксиса
@@ -26,6 +29,8 @@ var eco = require('gulp-eco'); // eco compilation    forked https://github.com/c
 var sass = require('gulp-sass'); // sass compilation
 
 var notify = require('gulp-notify');
+var shell = require('gulp-shell');
+var gulpif = require('gulp-if');
 
 var root = ".";
 
@@ -58,10 +63,15 @@ function compileEco(){
 function compileCss(){
   return gulp.src(sass_files_path)
     .pipe(include())
-    .pipe(sass())
+    .pipe(gulpif('application.scss', sass()))
+    .on('error', notify.onError(function (error) {
+      return 'An error occurred while compiling sass.\nLook in the console for details.\n' + error;
+    }))
     .pipe(gulp.dest(build_path))
     .on('end', function(){
-      del([build_path + "/*.css", "!" + build_path + "/" + compiled_css], {force: true});
+      del([
+        build_path + "/*.css", "!" + build_path + "/" + compiled_css,
+        build_path + "/*scss"], {force: true});
     });
 }
 
@@ -187,5 +197,9 @@ gulp.task('clean', function(cb) {
   cb.force = true;
 
   return del([build_path], cb);
+});
+
+gulp.task("server", function() {
+  gulp.src('').pipe(shell('cd ../server && fresh'));
 });
 

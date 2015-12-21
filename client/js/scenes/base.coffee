@@ -25,5 +25,4 @@ class Scene extends BaseController
 
     super
 
-
 module.exports = Scene
