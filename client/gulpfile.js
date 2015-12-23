@@ -32,6 +32,8 @@ var notify = require('gulp-notify');
 var shell = require('gulp-shell');
 var gulpif = require('gulp-if');
 
+var yaml = require('gulp-yaml');
+
 var root = ".";
 
 var server_assets_path = "../server/public/assets";
@@ -117,10 +119,12 @@ gulp.task('watch', ['watch-css'], function() {
 
 gulp.task('compile-js', ['compile-eco-and-coffee'], function() {
   return gulp.src([
+    vendor_path_js + "/preloadjs.min.js",
     vendor_path_js + "/jquery.js",
     vendor_path_js + "/underscore.js",
     vendor_path_js + "/spine.js",
     vendor_path_js + "/visibility.min.js",
+    vendor_path_js + "/i18next.min.js",
     build_path + "/" + compiled_eco_js,
     build_path + "/" + compiled_js
   ])
@@ -203,3 +207,9 @@ gulp.task("server", function() {
   gulp.src('').pipe(shell('cd ../server && fresh'));
 });
 
+
+gulp.task("locales", function(){
+  gulp.src('../locales/*.yml')
+    .pipe(yaml({ safe: true }))
+    .pipe(gulp.dest('../server/public/locales'))
+});
