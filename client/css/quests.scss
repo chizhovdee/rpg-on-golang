@@ -1,11 +1,11 @@
 //=require pagination.scss
 
-#missions {
+#quests {
   position: absolute;
   top: 110px;
   left: 0px;
 
-  .mission_groups {
+  .quest_groups {
     .tabs {
       @include pagination;
 
@@ -27,10 +27,10 @@
     }
   }
 
-  .mission_list {
+  .quest_list {
     margin-top: 20px;
 
-    .mission {
+    .quest {
       height: 100px;
       border: 1px solid black;
       margin-bottom: 10px;

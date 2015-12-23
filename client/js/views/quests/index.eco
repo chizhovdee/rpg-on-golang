@@ -1,0 +1,17 @@
+<div id="main_header"></div>
+
+<div id="quests">
+    <h2>Квесты</h2>
+
+    <div class="quest_groups">
+        <div class="tabs">
+            <%=@safe @.renderTemplate("quests/tabs") %>
+        </div>
+    </div>
+
+    <div class="quest_list">
+        <%=@safe @.renderTemplate("quests/quest_list") %>
+    </div>
+</div>
+
+<button class="back">Back</button>
