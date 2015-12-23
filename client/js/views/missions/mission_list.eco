@@ -1,5 +1,0 @@
-<% for mission in @missions: %>
-    <div class="mission">
-        <%= mission.key %>
-    </div>
-<% end %>

@@ -3,8 +3,8 @@
 package game_data
 
 func Define(){
-	defineMissionGroups()
-	defineMissions()
+	defineQuestGroups()
+	defineQuests()
 
 	// добавить новый инициализатор
 }

@@ -8,8 +8,8 @@ func ExportToClient() map[string]interface{} {
 	// ключи добавлять в единственном числе
 	// перед добавление нового ключа, нужно добавить класс в client/js/game_data
 	return map[string]interface{} {
-		"mission_group": MissionGroups.ForClient(),
-		"mission": Missions.ForClient(),
+		"quest_group": QuestGroups.ForClient(),
+		"quest": Quests.ForClient(),
 
 		// здесь может быть новый ключ
 	}

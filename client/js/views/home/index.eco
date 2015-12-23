@@ -1,7 +1,7 @@
 <div id="main_header"></div>
 
 <div id="main_menu">
-    <div class="menu missions">Миссии</div>
+    <div class="menu quests">Квесты</div>
     <div class="menu monsters">Монстры</div>
     <div class="menu shop">Магазин</div>
 </div>
