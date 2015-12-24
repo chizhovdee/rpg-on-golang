@@ -13,6 +13,8 @@
 
 var gulp       = require('gulp');
 
+var _ = require("underscore");
+
 var coffeelint = require('gulp-coffeelint'); // проверка синтаксиса
 var uglify     = require('gulp-uglify'); // сжатие кофе
 var rev = require('gulp-rev'); // Static asset revisioning by appending content hash to filenames
@@ -31,6 +33,10 @@ var sass = require('gulp-sass'); // sass compilation
 var notify = require('gulp-notify');
 var shell = require('gulp-shell');
 var gulpif = require('gulp-if');
+
+var map     = require('map-stream');
+var yaml    = require('js-yaml');
+var gutil = require("gulp-util");
 
 var root = ".";
 
@@ -117,10 +123,12 @@ gulp.task('watch', ['watch-css'], function() {
 
 gulp.task('compile-js', ['compile-eco-and-coffee'], function() {
   return gulp.src([
+    vendor_path_js + "/preloadjs.min.js",
     vendor_path_js + "/jquery.js",
     vendor_path_js + "/underscore.js",
     vendor_path_js + "/spine.js",
     vendor_path_js + "/visibility.min.js",
+    vendor_path_js + "/i18n.js",
     build_path + "/" + compiled_eco_js,
     build_path + "/" + compiled_js
   ])
@@ -203,3 +211,46 @@ gulp.task("server", function() {
   gulp.src('').pipe(shell('cd ../server && fresh'));
 });
 
+gulp.task('locales', function(){
+  var data = {
+    ru: {},
+    en: {}
+  };
+
+  gulp.src('../locales/**/*.yml')
+    .pipe(map(function(file,cb){
+      if (file.isNull()) return cb(null, file); // pass along
+      if (file.isStream()) return cb(new Error("Streaming not supported"));
+
+      var json;
+      var lng = "";
+
+      try {
+        json = yaml.load(String(file.contents.toString('utf8')));
+
+        if(json.ru != null){
+          lng = "ru";
+        } else if (json.en != null) {
+          lng = "en";
+        } else {
+          return cb(new Error("Language not supported"));
+        }
+
+        _.extend(data[lng], json[lng]);
+
+      } catch(e) {
+        console.log(e);
+        console.log(json);
+      }
+
+      file = new gutil.File({
+        cwd: "",
+        base: "",
+        path: lng + ".json",
+        contents: new Buffer(JSON.stringify(data[lng]))
+      });
+
+      cb(null, file);
+    }))
+    .pipe(gulp.dest('../server/public/locales'));
+});

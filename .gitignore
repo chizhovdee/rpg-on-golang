@@ -32,6 +32,7 @@ doc/
 /client/assets
 /server/assets
 /server/public/assets
+/server/public/locales
 /client/build
 
 
