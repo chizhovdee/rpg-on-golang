@@ -1,4 +1,0 @@
-hello: "Hello, {{name}}"
-a:
-  b:
-    c: "abc"

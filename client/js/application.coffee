@@ -17,6 +17,7 @@ class Application
 
     preloader.on("progress", @.onManifestLoadProgress, this)
 
+    # язык изначально загружается с сервера
     preloader.loadManifest([
       {id: "locale", src: "locales/ru.json"}
     ])
@@ -27,7 +28,7 @@ class Application
   onManifestLoadComplete: ->
     console.log "onManifestLoadComplete"
 
-    console.log preloader.getResult("locale")
+    @.setTranslations()
 
     transport.send("loadCharacterGameData")
 
@@ -40,19 +41,16 @@ class Application
 
     sceneManager.setup(scenes)
 
+    sceneManager.run("home")
+
+  setTranslations: ->
     # язык должен грузиться из сервера в самом начале
     lng = "ru"
-    locales = {}
-    locales[lng] = { translation: preloader.getResult("locale") }
 
-    i18next.init(
-      lng: "ru"
-      resources: locales
-      (err, t)->
-        console.log i18next.t("hello", name: "Dmitry")
-        sceneManager.run("home")
-    )
-
+    I18n.defaultLocale = lng
+    I18n.locale = lng
+    I18n.translations ?= {}
+    I18n.translations[lng] = preloader.getResult("locale")
 
 
 module.exports = Application
