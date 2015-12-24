@@ -1,4 +1,4 @@
-Scene = require("./base.coffee")
+Scene = require("../lib/scene.coffee")
 MainHeaderLayer = require("../layers/main_header.coffee")
 Character = require("../models/character.coffee")
 sceneManager = require("../lib/scene_manager.coffee")

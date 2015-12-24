@@ -1,4 +1,4 @@
-Layer = require("./base.coffee")
+Layer = require("../lib/layer.coffee")
 Character = require("../models/character.coffee")
 VisualTimer = require("../lib/visual_timer.coffee")
 

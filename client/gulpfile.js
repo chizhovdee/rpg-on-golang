@@ -113,7 +113,11 @@ gulp.task('compile-eco-and-coffee', ['compile-coffee'], function () {
 });
 
 // development
-gulp.task('watch-css', ["compile-assets"], function() {
+gulp.task('watch-locales', ["compile-assets"], function(){
+  gulp.watch('../locales/**/*.yml', ["locales"])
+});
+
+gulp.task('watch-css', ['watch-locales'], function() {
   gulp.watch(sass_files_path, ['compile-css']);
 });
 
