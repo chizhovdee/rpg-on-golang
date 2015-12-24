@@ -1,4 +1,4 @@
-BaseController = require("../lib/base_controller.coffee")
+BaseController = require("./base_controller.coffee")
 
 class Scene extends BaseController
   @show: ->

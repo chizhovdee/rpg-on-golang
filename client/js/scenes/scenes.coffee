@@ -2,4 +2,4 @@
 
 module.exports =
   home: require("./home.coffee")
-  quests: require("../scenes/quests.coffee")
+  quests: require("./quests.coffee")
