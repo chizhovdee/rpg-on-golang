@@ -1,0 +1,3 @@
+development:
+    driver: postgres
+    open: user=deewild password=satch dbname=rpg_game_development sslmode=disable
