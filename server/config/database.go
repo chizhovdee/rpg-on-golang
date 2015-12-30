@@ -1,16 +1,14 @@
 package config
 
 import (
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
-	"gopkg.in/gorp.v1"
+	"github.com/jackc/pgx"
+	log "gopkg.in/inconshreveable/log15.v2"
 	"os"
-	"log"
 )
 
-// Структура конфигурации базы данных для чтения из yaml файла
+// Структура конфигурации базы данных для чтения из yml файла
 type dbConfig struct {
 	Driver string `yaml:"driver"`
 	Dialect string `yaml:"dialect"`
@@ -22,45 +20,35 @@ type dbConfig struct {
 }
 
 // Устанавливает соединение с базой
-func OpenDb() (*sql.DB, error){
-	config, err := readConfig()
+func CreatePgxConn() *pgx.Conn{
+	var err error
+	var pgxConfig pgx.ConnConfig
+	var conn *pgx.Conn
 
-	if err != nil {
-		return nil, err
-	}
-
-	conf := config[os.Getenv("ENV")]
-
-	db, err := sql.Open(
-		"mysql",
-		conf.Username + ":" + conf.Password + "@/" + conf.Database  + "?parseTime=true",
-	)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if err = db.Ping(); err != nil {
-		return nil, err
-	}
-
-	return db, nil
-}
-
-// Инициализируем ОРМ
-func InitDbMap() *gorp.DbMap {
-	db, err := OpenDb()
+	configYml, err := readConfig()
 
 	if err != nil {
 		panic(err.Error())
 	}
 
-	dbMap := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{"InnoDB", "UTF8"}}
+	config := configYml[os.Getenv("ENV")]
 
-	dbMap.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
+	pgxConfig.Host = config.Host
+	pgxConfig.User = config.Username
+	pgxConfig.Password = config.Password
+	pgxConfig.Database = config.Database
+	pgxConfig.LogLevel = pgx.LogLevelInfo
+	pgxConfig.Logger = log.New("DBdriver", "Postgresql")
 
-	return dbMap
+	conn, err = pgx.Connect(pgxConfig)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return conn
 }
+
 
 // Читает yml файл с конфигурацией базы данных
 func readConfig() (map[string]*dbConfig, error) {

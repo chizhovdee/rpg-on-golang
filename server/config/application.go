@@ -1,14 +1,15 @@
 package config
 import (
-	"gopkg.in/gorp.v1"
+
+	"github.com/jackc/pgx"
 )
 
 type Application struct {
-	DbMap *gorp.DbMap
+	PgxConn *pgx.Conn
 }
 
 func NewApplication() *Application {
-	dbMap := InitDbMap()
-
-	return &Application{DbMap: dbMap}
+	return &Application{
+		PgxConn: CreatePgxConn(),
+	}
 }

@@ -1,8 +1,7 @@
 development:
-  driver: mysql
-  dialect: mysql
+  driver: postgresql
   database: rpg_game_development
   host: localhost
-  username: root
-  password:
+  username: deewild
+  password: satch
   migrations_dir: db/migrations

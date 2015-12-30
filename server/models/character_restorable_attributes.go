@@ -1,5 +1,8 @@
 package models
-import "time"
+import (
+	"time"
+	"github.com/chizhovdee/rpg/server/lib"
+)
 
 //  Атрибуты востанавливающиеся по времени
 
@@ -11,13 +14,13 @@ func (c *Character) Restorable(attribute string) int64 {
 
 	switch attribute {
 	case "hp":
-		updated_at = c.Hp_updated_at
+		updated_at = c.fields["hp_updated_at"].(time.Time)
 		total = c.HealthPoints()
-		current = c.Hp
+		current = lib.ToInt64(c.fields["hp"])
 	case "ep":
-		updated_at = c.Ep_updated_at
+		updated_at = c.fields["ep_updated_at"].(time.Time)
 		total = c.EnergyPoints()
-		current = c.Ep
+		current = lib.ToInt64(c.fields["ep"])
 	}
 
 	if updated_at.Before(time.Now().Add(-FULL_REFILL_DURATION)) {
@@ -44,9 +47,9 @@ func (c *Character) restoresSinceLastUpdate(attribute string) int64 {
 
 	switch attribute {
 	case "hp":
-		updated_at = c.Hp_updated_at
+		updated_at = c.fields["hp_updated_at"].(time.Time)
 	case "ep":
-		updated_at = c.Ep_updated_at
+		updated_at = c.fields["ep_updated_at"].(time.Time)
 	}
 
 	return int64((time.Now().Unix() - updated_at.Unix()) / c.restoreSeconds(attribute))
