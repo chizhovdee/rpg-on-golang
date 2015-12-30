@@ -24,7 +24,6 @@ func main(){
 	handlers.SetupApplication(app)
 
 	models.SetupApplication(app)
-	models.SetupTables()
 
 	game_data.Define()
 

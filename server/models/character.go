@@ -37,6 +37,7 @@ package models
 import (
 	"time"
 	"log"
+	"github.com/chizhovdee/rpg/server/lib"
 )
 
 const (
@@ -46,33 +47,41 @@ const (
 )
 
 type Character struct {
-	Base
-	Level int64
-	Energy int64
-	Ep int64
-	Ep_updated_at time.Time
-	Health int64
-	Hp int64
-	Hp_updated_at time.Time
-	Experience int64
-	Basic_money int64
-	Vip_money int64
+//	Base
+//	Level int64
+//	Energy int64
+//	Ep int64
+//	Ep_updated_at time.Time
+//	Health int64
+//	Hp int64
+//	Hp_updated_at time.Time
+//	Experience int64
+//	Basic_money int64
+//	Vip_money int64
+
+	fields map[string]interface{}
 }
 
 // public
 
 func FindCharacter(id int64) *Character {
-	obj, err := App.DbMap.Get(Character{}, id)
+	ch := &Character{fields: map[string]interface{}{}}
+
+	rows, err := App.PgxConn.Query("select * from characters where id=$1 limit 1", id)
 
 	if err != nil {
-		log.Println("Gorp Error", err.Error())
+		log.Println(err.Error())
 	}
 
-	if obj != nil {
-		return obj.(*Character)
-	} else {
-		return nil
+	for rows.Next() {
+		values, _ := rows.Values()
+
+		for index, field := range rows.FieldDescriptions() {
+			ch.fields[field.Name] = values[index]
+		}
 	}
+
+	return ch
 }
 
 func (c *Character) AsJson() map[string]interface{} {
@@ -81,20 +90,20 @@ func (c *Character) AsJson() map[string]interface{} {
 	var epRestoreDuration time.Duration  = EP_RESTORE_DURATION
 
 	return map[string]interface{}{
-		"id": c.Id,
-		"level": c.Level,
-		"ep": c.Ep,
-		"energy": c.Energy,
-		"hp": c.Hp,
-		"health": c.Health,
-		"experience": c.Experience,
-		"basic_money": c.Basic_money,
-		"vip_money": c.Vip_money,
+		"id": c.fields["id"],
+		"level": c.fields["level"],
+		"ep": c.fields["ep"],
+		"energy": c.fields["energy"],
+		"hp": c.fields["hp"],
+		"health": c.fields["health"],
+		"experience": c.fields["experience"],
+		"basic_money": c.fields["basic_money"],
+		"vip_money": c.fields["vip_money"],
 		"full_refill_duration": fullRefillDuration.Seconds(),
 		"hp_restore_duration": hpRestoreDuration.Seconds(),
 		"ep_restore_duration": epRestoreDuration.Seconds(),
-		"hp_updated_at": c.Hp_updated_at.Unix(),
-		"ep_updated_at": c.Ep_updated_at.Unix(),
+		"hp_updated_at": c.fields["hp_updated_at"].(time.Time).Unix(),
+		"ep_updated_at": c.fields["ep_updated_at"].(time.Time).Unix(),
 
 		// for test
 		"restorable_hp": c.Restorable("hp"),
@@ -111,22 +120,22 @@ func (c *Character) GetEp() int64 {
 	return c.Restorable("ep")
 }
 
-func (c *Character) SetHp(value int64) {
-	c.Hp = c.Restorable("hp") + value
-	c.Hp_updated_at = time.Now()
-}
-
-func (c *Character) SetEp(value int64) {
-	c.Ep = c.Restorable("ep") + value
-	c.Ep_updated_at = time.Now()
-}
+//func (c *Character) SetHp(value int64) {
+//	c.Hp = c.Restorable("hp") + value
+//	c.Hp_updated_at = time.Now()
+//}
+//
+//func (c *Character) SetEp(value int64) {
+//	c.Ep = c.Restorable("ep") + value
+//	c.Ep_updated_at = time.Now()
+//}
 
 func (c *Character) EnergyPoints() int64 {
-	return c.Energy
+	return  lib.ToInt64(c.fields["energy"])
 }
 
 func (c *Character) HealthPoints() int64 {
-	return c.Health
+	return  lib.ToInt64(c.fields["health"])
 }
 
 

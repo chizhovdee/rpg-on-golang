@@ -7,6 +7,7 @@ import (
 func CharactersGameData(c *gin.Context){
 	character := c.MustGet("current_character").(*models.Character)
 
+
 	if character == nil {
 		// TO DO
 		return
