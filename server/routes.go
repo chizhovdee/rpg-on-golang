@@ -20,6 +20,7 @@ func setupRoutes(router *gin.Engine){
 	// API routers
 	apiRouter := router.Group("/api/:version")
 
-	apiRouter.GET("/characters/game_data.json", handlers.CharactersGameData)
+	apiRouter.GET("/characters/game_data.json", handlers.CharacterGameData)
+	apiRouter.GET("/characters/status.json", handlers.CharacterStatus)
 
 }

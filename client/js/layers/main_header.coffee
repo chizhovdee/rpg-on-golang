@@ -1,6 +1,7 @@
 Layer = require("../lib/layer.coffee")
 Character = require("../models/character.coffee")
 VisualTimer = require("../lib/visual_timer.coffee")
+transport = require("../lib/transport.coffee")
 
 class MainHeaderLayer extends Layer
   elements:
@@ -9,6 +10,8 @@ class MainHeaderLayer extends Layer
 
   epTimer: null
   hpTimer: null
+  updateTimer: null
+  updateIn: 0
 
   hide: ->
     @epTimer?.stop()
@@ -17,6 +20,8 @@ class MainHeaderLayer extends Layer
     @hpTimer?.stop()
     @hpTimer = null
 
+    clearTimeout(@updateTimer)
+
     super
 
   show: ->
@@ -24,13 +29,12 @@ class MainHeaderLayer extends Layer
 
     super
 
-    console.log @character
-    console.log "Hp", "serv:", @character.restorable_hp, "client:", @character.restorable("hp")
-    console.log "Ep", "serv:", @character.restorable_ep, "client:", @character.restorable("ep")
+    @updateIn = 0
 
     @.render()
 
     @.setupTimers()
+    @.startTimers()
 
   render: ->
     @html(@.renderTemplate("main_header"))
@@ -46,47 +50,75 @@ class MainHeaderLayer extends Layer
     @character.unbind("update", (args...)=> @.onCharacterUpdate(args...))
 
   setupTimers: ->
-    @epTimer = new VisualTimer(@energyEl.find(".timer"), => @.updateEp())
-    @hpTimer = new VisualTimer(@healthEl.find(".timer"), => @.updateHp())
+    @epTimer = new VisualTimer(@energyEl.find(".timer"))
+    @hpTimer = new VisualTimer(@healthEl.find(".timer"))
 
+    @.setupUpdateTimer()
+
+  setupUpdateTimer: (force = false)->
+    calculatedUpdateIn = @.calculateUpdateIn()
+
+    if force || @updateIn > calculatedUpdateIn || @updateIn == 0
+      clearTimeout(@updateTimer)
+
+      @updateTimer = setTimeout(
+        => @.onUpdateTimerFinish()
+        calculatedUpdateIn
+      )
+
+      @updateIn = calculatedUpdateIn
+
+  startTimers: ->
     @.startEpTimer()
     @.startHpTimer()
+
+  calculateUpdateIn: ->
+    result = []
+
+    result.push(60)
+    result.push(@character.hp_restore_in) if @character.hp_restore_in > 0
+    result.push(@character.ep_restore_in) if @character.ep_restore_in > 0
+
+    _.min(result) * 1000
 
   updateEp: ->
     console.log "Updated ep"
 
-    @energyEl.find(".value").text("#{ @character.restorable("ep") } / #{ @character.energyPoints() }")
-    @energyEl.find(".progress").css(width: "#{ @character.epPercentage() }%")
+    @energyEl.find(".value").text("#{ @character.restorable_ep } / #{ @character.energy_points }")
+    @energyEl.find(".percentage").css(width: "#{ @character.epPercentage() }%")
 
     @.startEpTimer()
 
   startEpTimer: ->
-    if @character.restorable("ep") < @character.energyPoints()
-      @epTimer.start(@character.secondsSinceLastUpdate("ep"))
-
-    console.log "last hp secs", @character.secondsSinceLastUpdate("ep")
+    if @character.restorable_ep < @character.energy_points
+      @epTimer.start(@character.ep_restore_in)
 
   updateHp: ->
     console.log "Updated hp"
 
-    @healthEl.find(".value").text("#{ @character.restorable("hp") } / #{ @character.healthPoints() }")
-    @healthEl.find(".progress").css(width: "#{ @character.hpPercentage() }%")
+    @healthEl.find(".value").text("#{ @character.restorable_hp } / #{ @character.health_points }")
+    @healthEl.find(".percentage").css(width: "#{ @character.hpPercentage() }%")
 
     @.startHpTimer()
 
   startHpTimer: ->
-    if @character.restorable("hp") < @character.healthPoints()
-      @hpTimer.start(@character.secondsSinceLastUpdate("hp"))
+    if @character.restorable_hp < @character.health_points
+      @hpTimer.start(@character.hp_restore_in)
 
-    console.log "last hp secs", @character.secondsSinceLastUpdate("hp")
+  onUpdateTimerFinish: ->
+    transport.send("load_character_status")
 
   onCharacterUpdate: (character)->
     console.log "Character Update"
-    console.log changes = character.changes()
+    # обновляем каждый фрагмент отдельно если нужно
 
-    @.updateHp() if changes.hp?
-    @.updateEp() if changes.ep?
+    changes = character.changes()
 
+    console.log "changes", changes
 
+    @.updateHp() if changes.restorable_hp?
+    @.updateEp() if changes.restorable_ep?
+
+    @.setupUpdateTimer(true)
 
 module.exports = MainHeaderLayer

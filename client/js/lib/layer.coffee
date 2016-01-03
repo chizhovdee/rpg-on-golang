@@ -18,11 +18,7 @@ class Layer extends BaseController
   show: ->
     super
 
-    console.log "Show Layer"
-
   hide: ->
-    console.log "Hide Layer"
-
     super
 
 

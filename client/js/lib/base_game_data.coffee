@@ -1,7 +1,5 @@
 class BaseGameData extends Spine.Model
   @define: (data)->
-    console.log data
-
     @refresh(
       for values in data.values
         obj = {}

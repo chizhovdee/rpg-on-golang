@@ -1,16 +1,14 @@
 utils = require("../utils/utils.coffee")
-CharacterRestorableAttributes = require("./character_restorable_attributes.coffee")
 
 class Character extends Spine.Model
-  @configure "Character", "level", "experience", "ep", "energy", "hp", "health",
-    "basic_money", "vip_money", "full_refill_duration", "hp_restore_duration",
-    "ep_restore_duration", "hp_updated_at", "ep_updated_at", "oldAttributes"
+  @configure "Character", "level", "experience", "restorable_ep", "energy_points",
+    "restorable_hp", "health_points", "basic_money", "vip_money", "hp_restore_in",
+    "ep_restore_in", "oldAttributes"
 
-    # for test
-    "restorable_hp", "restorable_ep"
+  update: ->
+    @.setOldAttributes(@constructor.irecords[@id].attributes())
 
-  @include CharacterRestorableAttributes
-
+    super
 
   setOldAttributes: (attributes)->
     @oldAttributes = utils.deepClone(attributes, "oldAttributes")
@@ -30,14 +28,11 @@ class Character extends Spine.Model
 
     changes
 
-  energyPoints: ->
-    # server duplicate
-    @energy
+  epPercentage: ->
+    @restorable_ep / @energy_points * 100
 
-  healthPoints: ->
-    # server duplicate
-    @health
-
+  hpPercentage: ->
+    @restorable_hp / @health_points * 100
 
 module.exports = Character
 

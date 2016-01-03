@@ -12,10 +12,10 @@ create table characters (
   points integer not null default 0,
   basic_money integer not null default 0,
   vip_money integer not null default 0,
-  ep_updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
-  hp_updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
-  created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-  updated_at timestamp DEFAULT CURRENT_TIMESTAMP
+  ep_updated_at timestamptz DEFAULT CURRENT_TIMESTAMP,
+  hp_updated_at timestamptz DEFAULT CURRENT_TIMESTAMP,
+  created_at timestamptz DEFAULT CURRENT_TIMESTAMP,
+  updated_at timestamptz DEFAULT CURRENT_TIMESTAMP
 );
 
 -- +goose Down
