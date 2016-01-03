@@ -3,7 +3,7 @@ Character = require("../models/character.coffee")
 VisualTimer = require("../lib/visual_timer.coffee")
 transport = require("../lib/transport.coffee")
 
-class MainHeaderLayer extends Layer
+class HeaderLayer extends Layer
   elements:
     '.energy': 'energyEl'
     '.health': 'healthEl'
@@ -12,6 +12,10 @@ class MainHeaderLayer extends Layer
   hpTimer: null
   updateTimer: null
   updateIn: 0
+
+  @changeState: (state)->
+    # TO DO
+    # метод класса предназначен для смены состояния хедера в зависимости от сцены
 
   hide: ->
     @epTimer?.stop()
@@ -121,4 +125,4 @@ class MainHeaderLayer extends Layer
 
     @.setupUpdateTimer(true)
 
-module.exports = MainHeaderLayer
+module.exports = HeaderLayer

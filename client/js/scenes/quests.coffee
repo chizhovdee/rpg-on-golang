@@ -1,6 +1,5 @@
 Scene = require("../lib/scene.coffee")
 sceneManager = require("../lib/scene_manager.coffee")
-MainHeaderLayer = require("../layers/main_header.coffee")
 Character = require("../models/character.coffee")
 QuestGroup = require("../game_data/quest_group.coffee")
 Quest = require("../game_data/quest.coffee")
@@ -13,8 +12,6 @@ class QuestsScene extends Scene
   QUESTS_PER_PAGE = 3
 
   hide: ->
-    MainHeaderLayer.hide()
-
     super
 
   show: ->
@@ -32,8 +29,6 @@ class QuestsScene extends Scene
     @quests = Quest.findAllByAttribute("quest_group_key", @currentQuestGroupKey)
 
     @.render()
-
-    MainHeaderLayer.show(el: @el.find("#main_header"))
 
   render: ->
     @html(@.renderTemplate("quests/index"))

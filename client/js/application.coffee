@@ -4,6 +4,7 @@ gameData = require("./game_data.coffee")
 sceneManager = require("./lib/scene_manager.coffee")
 scenes = require("./scenes/scenes.coffee")
 preloader = require("./preloader.coffee")
+HeaderLayer = require("./layers/header.coffee")
 
 # сначала грузиться манифест с помощью прелоадера
 # затем загружается персонаж
@@ -48,6 +49,8 @@ class Application
 
   onCharacterGameDataLoaded: (response)->
     Character.create(response.character)
+
+    HeaderLayer.show(el: $("#application .header"))
 
     sceneManager.run("home")
 
