@@ -4,23 +4,38 @@ gameData = require("./game_data.coffee")
 sceneManager = require("./lib/scene_manager.coffee")
 scenes = require("./scenes/scenes.coffee")
 preloader = require("./preloader.coffee")
+HeaderLayer = require("./layers/header.coffee")
+
+# сначала грузиться манифест с помощью прелоадера
+# затем загружается персонаж
+# затем запускается главная сцена
 
 class Application
+  character: null
+
   constructor: ->
-    console.log "Initialize application"
+    @.setupEventListeners()
 
-    transport.one("character_game_data_loaded", @.onCharacterGameDataLoaded)
+    gameData.define()
 
-    $(document).on("click", "button.back", -> sceneManager.run("home"))
+    sceneManager.setup(scenes)
 
+    preloader.loadManifest([
+      {id: "locale", src: "locales/#{ window.lng }.json"}
+    ])
+
+  # все общие события для игры
+  setupEventListeners: ->
+    # события прелоадера
     preloader.on("complete", @.onManifestLoadComplete, this)
-
     preloader.on("progress", @.onManifestLoadProgress, this)
 
-    # язык изначально загружается с сервера
-    preloader.loadManifest([
-      {id: "locale", src: "locales/ru.json"}
-    ])
+    # события транспорта
+    transport.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
+    transport.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
+
+    # события DOM
+    $(document).on("click", "button.back", -> sceneManager.run("home"))
 
   onManifestLoadProgress: (e)->
     console.log "Total:", e.total, ", loaded:", e.loaded
@@ -33,24 +48,23 @@ class Application
     transport.send("loadCharacterGameData")
 
   onCharacterGameDataLoaded: (response)->
-    character = Character.create(response.character)
+    Character.create(response.character)
 
-    Character.bind("beforeUpdate", (record)-> record.setOldAttributes(character.attributes()))
-
-    gameData.define()
-
-    sceneManager.setup(scenes)
+    HeaderLayer.show(el: $("#application .header"))
 
     sceneManager.run("home")
 
+  onCharacterStatusLoaded: (response)->
+    console.log "onCharacterStatusLoaded"
+
+    @character ?= Character.first()
+
+    @character.updateAttributes(response.character)
+
   setTranslations: ->
-    # язык должен грузиться из сервера в самом начале
-    lng = "ru"
-
-    I18n.defaultLocale = lng
-    I18n.locale = lng
+    I18n.defaultLocale = window.lng
+    I18n.locale = window.lng
     I18n.translations ?= {}
-    I18n.translations[lng] = preloader.getResult("locale")
-
+    I18n.translations[window.lng] = preloader.getResult("locale")
 
 module.exports = Application

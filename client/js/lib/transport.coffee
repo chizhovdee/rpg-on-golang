@@ -18,8 +18,6 @@ transport =
       console.error 'Unknown event type:', eventName, data
 
   processResponse: (response)->
-    console.log(response)
-
     @.trigger(res.event_type, res.data) for res in response
 
   prefixUrl: (url)->
@@ -52,6 +50,9 @@ transport =
 
   loadCharacterGameData: ->
     @.get("characters/game_data.json")
+
+  load_character_status: ->
+    @.get("characters/status.json")
 
 
 module.exports = transport

@@ -1,5 +1,4 @@
 Scene = require("../lib/scene.coffee")
-MainHeaderLayer = require("../layers/main_header.coffee")
 Character = require("../models/character.coffee")
 sceneManager = require("../lib/scene_manager.coffee")
 
@@ -7,16 +6,12 @@ class HomeScene extends Scene
   className: "home scene"
 
   hide: ->
-    MainHeaderLayer.hide()
-
     super
 
   show: ->
     super
 
     @.render()
-
-    MainHeaderLayer.show(el: @el.find("#main_header"))
 
   render: ->
     @html(@.renderTemplate("home/index"))

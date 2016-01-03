@@ -16,13 +16,9 @@ class Scene extends BaseController
   show: ->
     super
 
-    console.log "Show Scene"
-
-    $("#application").append(@el)
+    $("#application .scene_wrapper").append(@el)
 
   hide: ->
-    console.log "Hide Scene"
-
     super
 
 module.exports = Scene

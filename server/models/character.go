@@ -1,38 +1,3 @@
-/**
-Методы и поля синхронизинованные с клиентом.
-Любые изменение значения полей или реализации на сервере,
-должны быть применены к клиенту
-
-Константы
------------------------------------------
-FULL_REFILL_DURATION
-HP_RESTORE_DURATION
-EP_RESTORE_DURATION
-
-Поля
-------------------------------------------
-Level
-Energy
-Ep
-Ep_updated_at
-Health
-Hp_updated_at
-Experience
-Basic_money
-Vip_money
-
-
-Методы
------------------------------------------
-EnergyPoints()
-HealthPoints()
-Restorable()
-restoresSinceLastUpdate()
-restoreSeconds()
-restoreBonus()
-
- */
-
 package models
 import (
 	"time"
@@ -47,22 +12,8 @@ const (
 )
 
 type Character struct {
-//	Base
-//	Level int64
-//	Energy int64
-//	Ep int64
-//	Ep_updated_at time.Time
-//	Health int64
-//	Hp int64
-//	Hp_updated_at time.Time
-//	Experience int64
-//	Basic_money int64
-//	Vip_money int64
-
 	fields map[string]interface{}
 }
-
-// public
 
 func FindCharacter(id int64) *Character {
 	ch := &Character{fields: map[string]interface{}{}}
@@ -84,58 +35,52 @@ func FindCharacter(id int64) *Character {
 	return ch
 }
 
-func (c *Character) AsJson() map[string]interface{} {
-	var fullRefillDuration time.Duration = FULL_REFILL_DURATION
-	var hpRestoreDuration time.Duration  = HP_RESTORE_DURATION
-	var epRestoreDuration time.Duration  = EP_RESTORE_DURATION
 
+// метод возвращает данные для клиента
+// этот метод используется и для игровых данных и для статуса
+func (c *Character) ForClient() map[string]interface{} {
+	// поля берем напрямую без преобразования типов
 	return map[string]interface{}{
-		"id": c.fields["id"],
-		"level": c.fields["level"],
-		"ep": c.fields["ep"],
-		"energy": c.fields["energy"],
-		"hp": c.fields["hp"],
-		"health": c.fields["health"],
-		"experience": c.fields["experience"],
-		"basic_money": c.fields["basic_money"],
-		"vip_money": c.fields["vip_money"],
-		"full_refill_duration": fullRefillDuration.Seconds(),
-		"hp_restore_duration": hpRestoreDuration.Seconds(),
-		"ep_restore_duration": epRestoreDuration.Seconds(),
-		"hp_updated_at": c.fields["hp_updated_at"].(time.Time).Unix(),
-		"ep_updated_at": c.fields["ep_updated_at"].(time.Time).Unix(),
-
-		// for test
-		"restorable_hp": c.Restorable("hp"),
+		"id": c.get("id"),
+		"level": c.get("level"),
 		"restorable_ep": c.Restorable("ep"),
+		"energy_points": c.get("energy"),
+		"restorable_hp": c.Restorable("hp"),
+		"health_points": c.get("health"),
+		"experience": c.get("experience"),
+		"basic_money": c.get("basic_money"),
+		"vip_money": c.get("vip_money"),
+		"hp_restore_in": c.timeToRestore("hp"),
+		"ep_restore_in": c.timeToRestore("ep"),
 	}
 }
 
+func (c *Character) GetHpUpdatedAt() time.Time {
+	return c.get("hp_updated_at").(time.Time)
+}
+
+func (c *Character) GetEpUpdatedAt() time.Time {
+	return c.get("ep_updated_at").(time.Time)
+}
 
 func (c *Character) GetHp() int64 {
-	return c.Restorable("hp")
+	return  lib.ToInt64(c.get("hp"))
 }
 
 func (c *Character) GetEp() int64 {
-	return c.Restorable("ep")
+	return  lib.ToInt64(c.get("ep"))
 }
 
-//func (c *Character) SetHp(value int64) {
-//	c.Hp = c.Restorable("hp") + value
-//	c.Hp_updated_at = time.Now()
-//}
-//
-//func (c *Character) SetEp(value int64) {
-//	c.Ep = c.Restorable("ep") + value
-//	c.Ep_updated_at = time.Now()
-//}
-
 func (c *Character) EnergyPoints() int64 {
-	return  lib.ToInt64(c.fields["energy"])
+	// сумма всех элементов
+	return  lib.ToInt64(c.get("energy"))
 }
 
 func (c *Character) HealthPoints() int64 {
-	return  lib.ToInt64(c.fields["health"])
+	// сумма всех элементов
+	return lib.ToInt64(c.get("health"))
 }
 
-
+func (c *Character) get(key string) interface{} {
+	return c.fields[key]
+}

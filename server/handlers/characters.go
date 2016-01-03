@@ -4,9 +4,9 @@ import (
 	"github.com/chizhovdee/rpg/server/models"
 )
 
-func CharactersGameData(c *gin.Context){
+// выполняется при первой загрузке
+func CharacterGameData(c *gin.Context){
 	character := c.MustGet("current_character").(*models.Character)
-
 
 	if character == nil {
 		// TO DO
@@ -14,7 +14,23 @@ func CharactersGameData(c *gin.Context){
 	}
 
 	responseEvent(c, "character_game_data_loaded", gin.H{
-		"character": character.AsJson(),
+		"character": character.ForClient(),
+	})
+
+	respond(c)
+}
+
+// статус персонажа
+func CharacterStatus(c *gin.Context) {
+	character := c.MustGet("current_character").(*models.Character)
+
+	if character == nil {
+		// TO DO
+		return
+	}
+
+	responseEvent(c, "character_status_loaded", gin.H{
+		"character": character.ForClient(),
 	})
 
 	respond(c)
