@@ -6,7 +6,10 @@
  *  compile-css
  *  watch
  *  clean
+ *  locales
  */
+
+// new packages install with npm install --save-dev package_name
 
 //Error: watch ENOSPC fix with
 //echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
