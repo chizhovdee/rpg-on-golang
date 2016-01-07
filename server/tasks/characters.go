@@ -3,6 +3,7 @@ import (
 	"github.com/chuckpreslar/gofer"
 	"github.com/chizhovdee/rpg/server/config"
 	"fmt"
+	"log"
 )
 
 var AddTestCharacter = gofer.Register(gofer.Task{
@@ -23,6 +24,34 @@ var AddTestCharacter = gofer.Register(gofer.Task{
 		}
 
 		fmt.Println("Character added successfully!")
+
+		return nil
+	},
+})
+
+var TestCharacterState = gofer.Register(gofer.Task{
+	Namespace:   "character",
+	Label:       "state",
+	Action: func(arguments ...string) error {
+		var err error
+		conn := config.CreatePgxConn()
+
+		type Quests struct {
+			A int
+			B string
+		}
+
+		q := Quests{}
+
+
+		err = conn.QueryRow("select quests from character_states where character_id=$1 limit 1", 1).Scan(&q)
+
+		if err != nil {
+			log.Println(err.Error())
+		}
+
+
+		log.Println("Quests", q)
 
 		return nil
 	},

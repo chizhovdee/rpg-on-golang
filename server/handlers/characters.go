@@ -2,6 +2,7 @@ package handlers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/chizhovdee/rpg/server/models"
+	"fmt"
 )
 
 // выполняется при первой загрузке
