@@ -35,7 +35,6 @@ class Application
     transport.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
 
     # события DOM
-    $(document).on("click", "button.back", -> sceneManager.run("home"))
 
   onManifestLoadProgress: (e)->
     console.log "Total:", e.total, ", loaded:", e.loaded

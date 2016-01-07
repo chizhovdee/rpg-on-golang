@@ -11,5 +11,3 @@
         <%=@safe @.renderTemplate("quests/quest_list") %>
     </div>
 </div>
-
-<button class="back">Back</button>

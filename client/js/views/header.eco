@@ -1,23 +1,33 @@
 <div class="experience">
     <%=@safe @.progressBar(100) %>
 
-    <span class="value"><%= @character.experience  %> / 100</span>
+    <span class="value"><%= @character.experience  %></span>
+
+    <span class="add"></span>
 </div>
 
 <div class="health">
     <%=@safe @.progressBar(@character.hpPercentage()) %>
 
-    <div class="value"><%= @character.restorable_hp %> / <%= @character.health_points %></div>
+    <div class="value">
+        <%=@safe @formatNumber(@character.restorable_hp) %> / <%=@safe @formatNumber(@character.health_points) %>
+    </div>
 
     <div class="timer"></div>
+
+    <span class="add"></span>
 </div>
 
 <div class="energy">
     <%=@safe @.progressBar(@character.epPercentage()) %>
 
-    <div class="value"><%= @character.restorable_ep %> / <%= @character.energy_points %></div>
+    <div class="value">
+        <%=@safe @formatNumber(@character.restorable_ep) %> / <%=@safe @formatNumber(@character.energy_points) %>
+    </div>
 
     <div class="timer"></div>
+
+    <span class="add"></span>
 </div>
 
 <div class="stamina">
@@ -26,6 +36,8 @@
     <div class="value"><%= @character.restorable_ep %> / <%= @character.energy_points %></div>
 
     <div class="timer"></div>
+
+    <span class="add"></span>
 </div>
 
 <div class="level">
