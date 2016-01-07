@@ -41,7 +41,7 @@ class HeaderLayer extends Layer
     @.startTimers()
 
   render: ->
-    @html(@.renderTemplate("main_header"))
+    @html(@.renderTemplate("header"))
 
   bindEventListeners: ->
     super

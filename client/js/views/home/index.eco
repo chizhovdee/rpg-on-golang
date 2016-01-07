@@ -1,7 +1,0 @@
-<div id="main_header"></div>
-
-<div id="main_menu">
-    <div class="menu quests"><%= I18n.t("main_menu.quests") %></div>
-    <div class="menu monsters"><%= I18n.t("main_menu.monsters") %></div>
-    <div class="menu shop"><%= I18n.t("main_menu.shop") %></div>
-</div>

@@ -1,205 +1,281 @@
+$menu: quests, monsters, shop, inventory, profile, rating, alliance;
+
+%header_progress_bar {
+  top: 7px;
+  width: 150px;
+  height: 13px;
+  border: 1px solid #fff;
+  @include border-radius(10px);
+  @include box-shadow(2px 2px 5px 0px rgba(255, 255, 255, 0.5));
+
+  &:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -4px;
+    left: -10px;
+  }
+
+  .value {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    width: 140px;
+    height: 12px;
+    text-align: left;
+    font-size: 12px;
+    line-height: 14px;
+    text-shadow: 1px 1px 2px #000;
+  }
+
+  .progress_bar {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 148px;
+    height: 11px;
+
+    .percentage {
+      height: 11px;
+      @include border-radius(10px);
+    }
+  }
+
+  .timer {
+    position: absolute;
+    top: 0px;
+    left: 155px;
+  }
+  
+  .add {
+    position: absolute;
+    right: -23px;
+    top: -3px;
+    width: 20px;
+    height: 19px;
+    background-image: url("/images/add.png");
+    background-size: contain;
+    cursor: pointer;
+  }
+}
+
 .header {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 760px;
+  width: 748px;
+  height: 105px;
+  border-bottom: 2px solid #ece7d3;
 
-  .profile, .level, .experience, .gold, .gems, .health, .energy {
+  .experience, .basic_money, .vip_money, .health, .energy, .stamina, .level {
     position: absolute;
   }
 
-  .profile {
-    top: 0px;
-    left: 0px;
-    width: 75px;
-    height: 75px;
-    border: 1px solid;
-  }
-
-  .level {
-    width: 50px;
-    height: 25px;
-    line-height: 25px;
-    top: 0px;
-    left: 76px;
-    text-align: center;
-    border: 1px solid black;
-    font-weight: bold;
-  }
-
   .experience {
-    width: 150px;
-    height: 25px;
-    line-height: 25px;
-    top: 0px;
-    left: 127px;
-    text-align: center;
-    border: 1px solid black;
-    font-size: 15px;
-  }
+    @extend %header_progress_bar;
 
-  .gems {
-    width: 122px;
-    height: 25px;
-    top: 0px;
-    right: 130px;
-    border: 1px solid black;
-    line-height: 25px;
+    left: 8px;
+    border: 1px solid #7eff00;
+    @include box-shadow(0px 0px 4px 1px rgba(126, 255, 0, 0.5));
 
-    &:before {
-      content: "";
-      width: 25px;
-      height: 25px;
-      display: inline-block;
-      vertical-align: top;
-      background-image: url("/images/vip_money_icon_medium.png");
-      border-right: 1px solid black;
+    &:after {
+      background-image: url("/images/icons/experience.png");
     }
 
-    .value, .add_button, &:before {
-      display: inline-block;
-      vertical-align: top;
+    .progress_bar {
+      .percentage {
+        background: linear-gradient(to top, #304405, #a0cd21);
+      }
     }
-
-    .value {
-      width: 60px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .add_button {
-      width: 25px;
-      height: 25px;
-      background-image: url("/images/add_button_medium.png");
-      cursor: pointer;
-      border-left: 1px solid black;
-    }
-  }
-
-  .gold {
-    width: 130px;
-    height: 25px;
-    top: 0px;
-    right: 300px;
-    border: 1px solid black;
-    line-height: 25px;
-
-    &:before {
-      content: "";
-      width: 25px;
-      height: 25px;
-      display: inline-block;
-      vertical-align: top;
-      background-image: url("/images/basic_money_icon_medium.png");
-      border-right: 1px solid black;
-    }
-
-    .value, &:before {
-      display: inline-block;
-      vertical-align: top;
-    }
-
-    .value {
-      width: 98px;
-      text-align: center;
-      font-size: 16px;
+    
+    .add {
+      background-image: url("/images/upgrade.png");
     }
   }
 
   .health {
-    width: 150px;
-    height: 16px;
-    top: 26px;
-    left: 76px;
-    border: 1px solid black;
+    @extend %header_progress_bar;
 
-    &:before {
-      content: "";
+    left: 196px;
+    border: 1px solid #ff0000;
+    @include box-shadow(0px 0px 4px 1px rgba(255, 0, 0, 0.5));
+
+    &:after {
       width: 16px;
       height: 16px;
-      display: inline-block;
-      vertical-align: top;
-      background-image: url("/images/health_icon_small.png");
-      border-right: 1px solid black;
-    }
-
-    .value {
-      position: absolute;
-      top: 0px;
-      left: 17px;
-      width: 133px;
-      height: 16px;
-      text-align: center;
-      font-size: 13px;
-      line-height: 16px;
+      top: -2px;
+      left: -8px;
+      background-image: url("/images/icons/health_red.png");
     }
 
     .progress_bar {
-      position: absolute;
-      top: 0px;
-      left: 17px;
-      width: 133px;
-      height: 16px;
-
       .percentage {
-        height: 16px;
-        background-color: #86EE89;
+        background: linear-gradient(to top, #530000, #f95a5a);
       }
-    }
-
-    .timer {
-      position: absolute;
-      top: 0px;
-      left: 155px;
     }
   }
 
   .energy {
-    width: 150px;
-    height: 16px;
-    top: 43px;
-    left: 76px;
-    border: 1px solid black;
-    line-height: 16px;
+    @extend %header_progress_bar;
 
-    &:before {
-      content: "";
-      width: 16px;
-      height: 16px;
-      display: inline-block;
-      vertical-align: top;
-      background-image: url("/images/energy_icon_small.png");
-      border-right: 1px solid black;
-    }
+    left: 383px;
+    border: 1px solid #ffff00;
+    @include box-shadow(1px 1px 4px 0px rgba(255, 255, 0, 0.5));
 
-    .value {
-      position: absolute;
-      top: 0px;
-      left: 17px;
-      width: 133px;
-      height: 16px;
-      text-align: center;
-      font-size: 13px;
-      line-height: 16px;
+    &:after {
+      background-image: url("/images/icons/energy_yellow.png");
     }
 
     .progress_bar {
+      .percentage {
+        background: linear-gradient(to top, #b87a00, #f9ff57);
+      }
+    }
+  }
+
+  .stamina {
+    @extend %header_progress_bar;
+
+    left: 572px;
+    border: 1px solid #00ccff;
+    @include box-shadow(1px 1px 4px 0px rgba(0, 204, 255, 0.5));
+
+    &:after {
+      background-image: url("/images/icons/stamina_blue.png");
+    }
+
+    .progress_bar {
+      .percentage {
+        background: linear-gradient(to top, #002677, #77e8f6);
+      }
+    }
+  }
+
+  .level {
+    top: 35px;
+    left: 30px;
+    width: 50px;
+    height: 25px;
+    border: 1px solid #ffd57b;
+    @include border-radius(15px);
+    
+    &:after {
       position: absolute;
       top: 0px;
-      left: 17px;
-      width: 133px;
-      height: 16px;
+      left: -25px;
+      content: "";
+      width: 20px;
+      height: 20px;
+      background-image: url("/images/icons/level.png");
+    }
 
-      .percentage {
-        height: 16px;
-        background-color: #FFF935;
+    .value {
+      font-size: 18px;
+      font-weight: bold;
+      display: block;
+      text-align: center;
+      line-height: 25px;
+    }
+  }
+
+  .vip_money {
+    top: 38px;
+    left: 300px;
+    width: 80px;
+    height: 20px;
+    border: 1px solid #ffd57b;
+    @include border-radius(15px);
+
+    &:after {
+      position: absolute;
+      top: 0px;
+      left: -25px;
+      content: "";
+      width: 20px;
+      height: 20px;
+      background-image: url("/images/icons/vip_money.png");
+    }
+
+    .value {
+      font-weight: bold;
+      display: block;
+      text-align: center;
+      line-height: 20px;
+    }
+
+    .add {
+      position: absolute;
+      top: -3px;
+      right: -15px;
+      width: 28px;
+      height: 27px;
+      background-image: url("/images/add.png");
+      cursor: pointer;
+    }
+  }
+
+
+  .basic_money {
+    top: 38px;
+    left: 130px;
+    width: 120px;
+    height: 20px;
+    border: 1px solid #ffd57b;
+    @include border-radius(15px);
+
+    &:after {
+      position: absolute;
+      top: 0px;
+      left: -25px;
+      content: "";
+      width: 20px;
+      height: 20px;
+      background-image: url("/images/icons/basic_money.png");
+    }
+
+    .value {
+      font-weight: bold;
+      display: block;
+      text-align: center;
+      line-height: 20px;
+    }
+  }
+}
+
+#main_menu {
+  position: absolute;
+  top: 75px;
+  left: 0px;
+  width: 748px;
+  text-align: center;
+
+  .menu {
+    position: relative;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 15px;
+    margin: 0 8px;
+    cursor: pointer;
+    text-align: center;
+    text-shadow: 1px 1px 2px #000;
+
+    &:before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 2px;
+      left: -15px;
+    }
+
+    @each $menu_item in $menu {
+      &.#{$menu_item} {
+        &:before {
+          background-image: url("/images/icons/#{$menu_item}.png");
+        }
       }
     }
 
-    .timer {
-      position: absolute;
-      top: 0px;
-      left: 155px;
-    }
   }
 }
