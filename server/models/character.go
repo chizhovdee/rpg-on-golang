@@ -1,7 +1,6 @@
 package models
 import (
 	"time"
-	"log"
 	"github.com/chizhovdee/rpg/server/lib"
 )
 
@@ -12,24 +11,12 @@ const (
 )
 
 type Character struct {
-	fields map[string]interface{}
+	*Base
 }
 
 func FindCharacter(id int64) *Character {
-	ch := &Character{fields: map[string]interface{}{}}
-
-	rows, err := App.PgxConn.Query("select * from characters where id=$1 limit 1", id)
-
-	if err != nil {
-		log.Println(err.Error())
-	}
-
-	for rows.Next() {
-		values, _ := rows.Values()
-
-		for index, field := range rows.FieldDescriptions() {
-			ch.fields[field.Name] = values[index]
-		}
+	ch := &Character{
+		&Base{fields: FetchFields("select * from characters where id=$1 limit 1", id)},
 	}
 
 	return ch
@@ -79,8 +66,4 @@ func (c *Character) EnergyPoints() int64 {
 func (c *Character) HealthPoints() int64 {
 	// сумма всех элементов
 	return lib.ToInt64(c.get("health"))
-}
-
-func (c *Character) get(key string) interface{} {
-	return c.fields[key]
 }
